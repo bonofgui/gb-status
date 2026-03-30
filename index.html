@@ -526,11 +526,14 @@
     }
 
     .step-text {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.45;
-      padding: 0 8px;
-    }
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+  padding: 0 8px;
+  min-height: 20px;
+  opacity: 0;
+  transition: 0.25s ease;
+}
 
     .step.done .step-circle {
       background: rgba(23,201,100,0.18);
@@ -683,45 +686,44 @@
         <div id="timelineFill" class="timeline-line-fill"></div>
 
         <div class="step" id="step0">
-          <div class="step-circle">📥</div>
-          <div>
-            <div class="step-title">Recebido</div>
-            <div class="step-text">Veículo recebido e preparado para iniciar o serviço.</div>
-          </div>
-        </div>
+  <div class="step-circle">📥</div>
+  <div>
+    <div class="step-title">Recebido</div>
+    <div class="step-text" data-desc="Veículo recebido e preparado para iniciar o serviço."></div>
+  </div>
+</div>
 
-        <div class="step" id="step1">
-          <div class="step-circle">🧽</div>
-          <div>
-            <div class="step-title">Pré-lavagem</div>
-            <div class="step-text">Primeira etapa para remoção inicial de sujeira e preparação da superfície.</div>
-          </div>
-        </div>
+<div class="step" id="step1">
+  <div class="step-circle">🧽</div>
+  <div>
+    <div class="step-title">Pré-lavagem</div>
+    <div class="step-text" data-desc="Primeira etapa para remoção inicial de sujeira e preparação da superfície."></div>
+  </div>
+</div>
 
-        <div class="step" id="step2">
-          <div class="step-circle">🫧</div>
-          <div>
-            <div class="step-title">Lavando</div>
-            <div class="step-text">Etapa principal de limpeza com shampoo e cuidado completo do veículo.</div>
-          </div>
-        </div>
+<div class="step" id="step2">
+  <div class="step-circle">🫧</div>
+  <div>
+    <div class="step-title">Lavando</div>
+    <div class="step-text" data-desc="Etapa principal de limpeza com shampoo e cuidado completo do veículo."></div>
+  </div>
+</div>
 
-        <div class="step" id="step3">
-          <div class="step-circle">💦</div>
-          <div>
-            <div class="step-title">Finalização</div>
-            <div class="step-text">Enxágue, acabamento e últimos detalhes para entrega.</div>
-          </div>
-        </div>
+<div class="step" id="step3">
+  <div class="step-circle">💦</div>
+  <div>
+    <div class="step-title">Finalização</div>
+    <div class="step-text" data-desc="Enxágue, acabamento e últimos detalhes para entrega."></div>
+  </div>
+</div>
 
-        <div class="step" id="step4">
-          <div class="step-circle">✅</div>
-          <div>
-            <div class="step-title">Finalizado</div>
-            <div class="step-text">Só aparece quando você finalizar oficialmente no sistema.</div>
-          </div>
-        </div>
-      </div>
+<div class="step" id="step4">
+  <div class="step-circle">✅</div>
+  <div>
+    <div class="step-title">Finalizado</div>
+    <div class="step-text" data-desc="Só aparece quando você finalizar oficialmente no sistema."></div>
+  </div>
+</div>
 
       <div class="footer-note">
         Atualização automática a cada 5 segundos.
@@ -819,25 +821,81 @@
   };
 }
 
-    function updateTimeline(stageIndex, progressPercent, finalized) {
-      for (let i = 0; i <= 4; i++) {
-        const step = document.getElementById("step" + i);
-        step.classList.remove("done", "active");
 
-        if (finalized) {
-          if (i < 4) step.classList.add("done");
-          if (i === 4) step.classList.add("active");
-        } else {
-          if (i < stageIndex) step.classList.add("done");
-          if (i === stageIndex) step.classList.add("active");
-        }
+function updateStepTexts(stageIndex, finalized) {
+  for (let i = 0; i <= 4; i++) {
+    const step = document.getElementById("step" + i);
+    const textEl = step.querySelector(".step-text");
+    const original = textEl.dataset.desc || "";
+
+    if (finalized) {
+      if (i < 4) {
+        textEl.innerText = "✅ Etapa concluída";
+        textEl.style.opacity = "1";
+      } else if (i === 4) {
+        textEl.innerText = original;
+        textEl.style.opacity = "1";
+      } else {
+        textEl.innerText = "";
+        textEl.style.opacity = "0";
       }
-
-      const fill = finalized ? 100 : clamp(progressPercent, 0, 99);
-      document.getElementById("timelineFill").style.width = fill + "%";
-      document.getElementById("animProgressBar").style.width = fill + "%";
-      document.getElementById("percentText").innerText = Math.round(fill) + "%";
+      continue;
     }
+
+    if (i === stageIndex) {
+      textEl.innerText = original;
+      textEl.style.opacity = "1";
+    } else if (i < stageIndex && i !== 0) {
+      textEl.innerText = "✅ Etapa concluída";
+      textEl.style.opacity = "1";
+    } else {
+      textEl.innerText = "";
+      textEl.style.opacity = "0";
+    }
+  }
+}
+
+
+
+
+
+
+    function updateTimeline(stageIndex, progressPercent, finalized) {
+  for (let i = 0; i <= 4; i++) {
+    const step = document.getElementById("step" + i);
+    step.classList.remove("done", "active");
+
+    if (finalized) {
+      if (i < 4) step.classList.add("done");
+      if (i === 4) step.classList.add("active");
+    } else {
+      if (i < stageIndex && i !== 0) step.classList.add("done");
+      if (i === stageIndex) step.classList.add("active");
+    }
+  }
+
+  let fill = 0;
+
+  if (finalized) {
+    fill = 100;
+  } else if (stageIndex === 0) {
+    fill = 0;
+  } else if (stageIndex === 1) {
+    fill = 25 + (clamp(progressPercent, 1, 33.33) / 33.33) * 25;
+  } else if (stageIndex === 2) {
+    const local = clamp(progressPercent - 33.33, 0, 33.33);
+    fill = 50 + (local / 33.33) * 25;
+  } else if (stageIndex === 3) {
+    const local = clamp(progressPercent - 66.66, 0, 33.34);
+    fill = 75 + (local / 33.34) * 24;
+  }
+
+  document.getElementById("timelineFill").style.width = fill + "%";
+  document.getElementById("animProgressBar").style.width = fill + "%";
+  document.getElementById("percentText").innerText = Math.round(fill) + "%";
+
+  updateStepTexts(stageIndex, finalized);
+}
 
     function updateAnimation(stageIndex, progressPercent, finalized) {
       const car = document.getElementById("carEmoji");

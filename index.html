@@ -767,239 +767,240 @@
   </main>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec";
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+  const API_URL = "https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec";
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-    let currentData = null;
-    let lastStageIndex = 0;
-    let liveTimer = null;
+  let currentData = null;
+  let liveTimer = null;
 
-    const STAGES = [
-      {
-        name: "Recebido",
-        desc: "Seu veículo foi recebido e está na fila de preparação.",
-        emoji: "🚗"
-      },
-      {
-        name: "Pré-lavagem",
-        desc: "Iniciamos a preparação e remoção inicial da sujeira.",
-        emoji: "🚙"
-      },
-      {
-        name: "Lavando",
-        desc: "Seu veículo está passando pela etapa principal de lavagem.",
-        emoji: "🚘"
-      },
-      {
-        name: "Finalização",
-        desc: "Estamos nos detalhes finais para deixar tudo pronto.",
-        emoji: "🚖"
-      },
-      {
-        name: "Finalizado",
-        desc: "Seu veículo está pronto. Obrigado por escolher a GB Estética Automotiva.",
-        emoji: "✨"
+  const STAGES = [
+    {
+      name: "Recebido",
+      desc: "Seu veículo foi recebido e está na fila de preparação.",
+      emoji: "🚗"
+    },
+    {
+      name: "Pré-lavagem",
+      desc: "Iniciamos a preparação e remoção inicial da sujeira.",
+      emoji: "🚙"
+    },
+    {
+      name: "Lavando",
+      desc: "Seu veículo está passando pela etapa principal de lavagem.",
+      emoji: "🚘"
+    },
+    {
+      name: "Finalização",
+      desc: "Estamos nos detalhes finais para deixar tudo pronto.",
+      emoji: "🚖"
+    },
+    {
+      name: "Finalizado",
+      desc: "Seu veículo está pronto. Obrigado por escolher a GB Estética Automotiva.",
+      emoji: "✨"
+    }
+  ];
+
+  function showError(msg) {
+    document.getElementById("loading").style.display = "none";
+    const errorBox = document.getElementById("errorBox");
+    errorBox.style.display = "block";
+    errorBox.innerHTML = msg;
+  }
+
+  function parseDateFlexible(value) {
+    if (!value) return null;
+
+    if (typeof value === "string") {
+      const direct = new Date(value);
+      if (!isNaN(direct.getTime())) return direct;
+
+      const br = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})[ ,]+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+      if (br) {
+        const [, d, m, y, hh, mm, ss] = br;
+        return new Date(
+          Number(y),
+          Number(m) - 1,
+          Number(d),
+          Number(hh),
+          Number(mm),
+          Number(ss || 0)
+        );
       }
-    ];
-
-    function showError(msg) {
-      document.getElementById("loading").style.display = "none";
-      const errorBox = document.getElementById("errorBox");
-      errorBox.style.display = "block";
-      errorBox.innerHTML = msg;
     }
 
-    function parseDateFlexible(value) {
-      if (!value) return null;
+    return null;
+  }
 
-      if (typeof value === "string") {
-        const direct = new Date(value);
-        if (!isNaN(direct.getTime())) return direct;
+  function normalizeText(text) {
+    return String(text || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
 
-        const br = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})[ ,]+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
-        if (br) {
-          const [, d, m, y, hh, mm, ss] = br;
-          return new Date(
-            Number(y),
-            Number(m) - 1,
-            Number(d),
-            Number(hh),
-            Number(mm),
-            Number(ss || 0)
-          );
-        }
-      }
+  function isFinalized(status) {
+    const s = normalizeText(status);
+    return s === "finalizado" || s === "finalizada" || s === "concluido" || s === "concluida" || s === "pronto";
+  }
 
-      return null;
-    }
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
 
-    function normalizeText(text) {
-      return String(text || "")
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    }
+  function getAutoStage(progress) {
+    if (progress < 0.25) return 0;
+    if (progress < 0.50) return 1;
+    if (progress < 0.85) return 2;
+    return 3;
+  }
 
-    function isFinalized(status) {
-      const s = normalizeText(status);
-      return s === "finalizado" || s === "finalizada" || s === "concluido" || s === "concluida" || s === "pronto";
-    }
-
-    function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
-    }
-
-    function getAutoStage(progress) {
-      if (progress < 0.25) return 0; // Recebido
-      if (progress < 0.50) return 1; // Pré-lavagem
-      if (progress < 0.85) return 2; // Lavando
-      return 3; // Finalização
-    }
-
-    function updateTimeline(stageIndex, progressPercent, finalized) {
-      for (let i = 0; i <= 4; i++) {
-        const step = document.getElementById("step" + i);
-        step.classList.remove("done", "active");
-
-        if (finalized) {
-          if (i < 4) step.classList.add("done");
-          if (i === 4) step.classList.add("active");
-        } else {
-          if (i < stageIndex) step.classList.add("done");
-          if (i === stageIndex) step.classList.add("active");
-        }
-      }
-
-      const fill = finalized ? 100 : clamp(progressPercent, 0, 99);
-      document.getElementById("timelineFill").style.width = fill + "%";
-      document.getElementById("animProgressBar").style.width = fill + "%";
-      document.getElementById("percentText").innerText = Math.round(fill) + "%";
-    }
-
-    function updateAnimation(stageIndex, progressPercent, finalized) {
-      const car = document.getElementById("carEmoji");
-      const dust = document.getElementById("dust");
-      const foam = document.getElementById("foam");
-      const water = document.getElementById("water");
-      const shine = document.getElementById("shine");
-
-      dust.style.opacity = "0";
-      foam.style.opacity = "0";
-      water.style.opacity = "0";
-      shine.style.opacity = "0";
-
-      const travel = finalized ? 100 : clamp(progressPercent, 0, 95);
-      car.style.transform = `translateX(${travel}%)`;
+  function updateTimeline(stageIndex, progressPercent, finalized) {
+    for (let i = 0; i <= 4; i++) {
+      const step = document.getElementById("step" + i);
+      step.classList.remove("done", "active");
 
       if (finalized) {
-        car.innerText = "✨";
-        shine.style.opacity = "1";
-        return;
-      }
-
-      if (stageIndex === 0) {
-        car.innerText = "🚗";
-        dust.style.opacity = "1";
-      } else if (stageIndex === 1) {
-        car.innerText = "🚙";
-        foam.style.opacity = "1";
-      } else if (stageIndex === 2) {
-        car.innerText = "🚘";
-        foam.style.opacity = "1";
-        water.style.opacity = "0.7";
-      } else if (stageIndex === 3) {
-        car.innerText = "🚖";
-        water.style.opacity = "1";
-        shine.style.opacity = "0.65";
+        if (i < 4) step.classList.add("done");
+        if (i === 4) step.classList.add("active");
+      } else {
+        if (i < stageIndex) step.classList.add("done");
+        if (i === stageIndex) step.classList.add("active");
       }
     }
 
-    function renderStatus(data) {
-      const vehicleName = document.getElementById("vehicleName");
-      const ownerName = document.getElementById("ownerName");
-      const statusValue = document.getElementById("statusValue");
-      const statusDesc = document.getElementById("statusDesc");
-      const finalChip = document.getElementById("finalChip");
+    const fill = finalized ? 100 : clamp(progressPercent, 0, 99);
+    document.getElementById("timelineFill").style.width = fill + "%";
+    document.getElementById("animProgressBar").style.width = fill + "%";
+    document.getElementById("percentText").innerText = Math.round(fill) + "%";
+  }
 
-      vehicleName.innerText = data.carro || "Veículo";
-      ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
+  function updateAnimation(stageIndex, progressPercent, finalized) {
+    const car = document.getElementById("carEmoji");
+    const dust = document.getElementById("dust");
+    const foam = document.getElementById("foam");
+    const water = document.getElementById("water");
+    const shine = document.getElementById("shine");
 
-      const tempoMin = Number(data.tempo || 0);
-      const inicioDate = parseDateFlexible(data.inicio);
-      const manualFinal = isFinalized(data.status);
+    dust.style.opacity = "0";
+    foam.style.opacity = "0";
+    water.style.opacity = "0";
+    shine.style.opacity = "0";
 
-      if (manualFinal) {
-        statusValue.innerText = "Finalizado";
-        statusDesc.innerText = STAGES[4].desc;
-        finalChip.style.display = "inline-block";
-        updateTimeline(4, 100, true);
-        updateAnimation(4, 100, true);
-        lastStageIndex = 4;
+    const travel = finalized ? 100 : clamp(progressPercent, 0, 95);
+    car.style.transform = `translateX(${travel}%)`;
+
+    if (finalized) {
+      car.innerText = "✨";
+      shine.style.opacity = "1";
+      return;
+    }
+
+    if (stageIndex === 0) {
+      car.innerText = "🚗";
+      dust.style.opacity = "1";
+    } else if (stageIndex === 1) {
+      car.innerText = "🚙";
+      foam.style.opacity = "1";
+    } else if (stageIndex === 2) {
+      car.innerText = "🚘";
+      foam.style.opacity = "1";
+      water.style.opacity = "0.7";
+    } else if (stageIndex === 3) {
+      car.innerText = "🚖";
+      water.style.opacity = "1";
+      shine.style.opacity = "0.65";
+    }
+  }
+
+  function renderStatus(data) {
+    const vehicleName = document.getElementById("vehicleName");
+    const ownerName = document.getElementById("ownerName");
+    const statusValue = document.getElementById("statusValue");
+    const statusDesc = document.getElementById("statusDesc");
+    const finalChip = document.getElementById("finalChip");
+
+    vehicleName.innerText = data.carro || "Veículo";
+    ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
+
+    const tempoMin = Number(data.tempo || 0);
+    const inicioDate = parseDateFlexible(data.inicio);
+    const manualFinal = isFinalized(data.status);
+
+    if (manualFinal) {
+      statusValue.innerText = "Finalizado";
+      statusDesc.innerText = STAGES[4].desc;
+      finalChip.style.display = "inline-block";
+      updateTimeline(4, 100, true);
+      updateAnimation(4, 100, true);
+      return;
+    }
+
+    finalChip.style.display = "none";
+
+    if (!inicioDate || !tempoMin || tempoMin <= 0) {
+      statusValue.innerText = "Recebido";
+      statusDesc.innerText = STAGES[0].desc;
+      updateTimeline(0, 0, false);
+      updateAnimation(0, 0, false);
+      return;
+    }
+
+    const now = new Date();
+    const totalMs = tempoMin * 60 * 1000;
+    const elapsedMs = now.getTime() - inicioDate.getTime();
+    const progress = clamp(elapsedMs / totalMs, 0, 1);
+    const progressPercent = progress * 100;
+    const stageIndex = getAutoStage(progress);
+
+    statusValue.innerText = STAGES[stageIndex].name;
+    statusDesc.innerText = STAGES[stageIndex].desc;
+
+    updateTimeline(stageIndex, progressPercent, false);
+    updateAnimation(stageIndex, progressPercent, false);
+  }
+
+  async function carregar() {
+    if (!id) {
+      showError("Link inválido. O código do veículo não foi informado.");
+      return;
+    }
+
+    try {
+      const url = API_URL + "?id=" + encodeURIComponent(id) + "&t=" + Date.now();
+
+      const resp = await fetch(url, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+      const data = await resp.json();
+
+      if (data.erro) {
+        showError("Veículo não encontrado.");
         return;
       }
 
-      finalChip.style.display = "none";
+      currentData = data;
+      renderStatus(data);
 
-      if (!inicioDate || !tempoMin || tempoMin <= 0) {
-        statusValue.innerText = "Recebido";
-        statusDesc.innerText = STAGES[0].desc;
-        updateTimeline(0, 0, false);
-        updateAnimation(0, 0, false);
-        lastStageIndex = 0;
-        return;
-      }
-
-      const now = new Date();
-      const totalMs = tempoMin * 60 * 1000;
-      const elapsedMs = now.getTime() - inicioDate.getTime();
-      const progress = clamp(elapsedMs / totalMs, 0, 1);
-      const progressPercent = progress * 100;
-      const stageIndex = getAutoStage(progress);
-
-      statusValue.innerText = STAGES[stageIndex].name;
-      statusDesc.innerText = STAGES[stageIndex].desc;
-
-      updateTimeline(stageIndex, progressPercent, false);
-      updateAnimation(stageIndex, progressPercent, false);
-
-      lastStageIndex = stageIndex;
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("page").style.display = "block";
+    } catch (error) {
+      console.error("Erro ao buscar API:", error);
     }
+  }
 
-    async function carregar() {
-      if (!id) {
-        showError("Link inválido. O código do veículo não foi informado.");
-        return;
-      }
+  function tickLocal() {
+    if (!currentData) return;
+    renderStatus(currentData);
+  }
 
-      try {
-        const resp = await fetch(API_URL + "?id=" + encodeURIComponent(id));
-        const data = await resp.json();
-
-        if (data.erro) {
-          showError("Veículo não encontrado.");
-          return;
-        }
-
-        currentData = data;
-        renderStatus(data);
-
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("page").style.display = "block";
-      } catch (error) {
-        showError("Erro ao carregar o status. Tente novamente em instantes.");
-      }
-    }
-
-    function tickLocal() {
-      if (!currentData) return;
-      renderStatus(currentData);
-    }
-
-    carregar();
-    liveTimer = setInterval(tickLocal, 1000);
-    setInterval(carregar, 5000);
-  </script>
+  carregar();
+  liveTimer = setInterval(tickLocal, 1000);
+  setInterval(carregar, 5000);
+</script>
 </body>
 </html>

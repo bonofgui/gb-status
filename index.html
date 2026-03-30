@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GB Estética Automotiva</title>
+</head>
+<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+
+<h1>GB Estética Automotiva</h1>
+<h2 id="carro"></h2>
+<h3 id="status"></h3>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+function carregar() {
+  fetch("https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec?id=" + id)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById("carro").innerText = data.carro;
+      document.getElementById("status").innerText = "Status: " + data.status;
+    });
+}
+
+carregar();
+setInterval(carregar, 5000);
+</script>
+
+</body>
+</html>

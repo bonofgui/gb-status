@@ -852,7 +852,7 @@ function updateStepTexts(stageIndex, finalized) {
   }
 }
 
-    function updateTimeline(stageIndex, progressPercent, finalized) {
+   function updateTimeline(stageIndex, progressPercent, finalized) {
   for (let i = 0; i <= 4; i++) {
     const step = document.getElementById("step" + i);
     step.classList.remove("done", "active");
@@ -866,25 +866,32 @@ function updateStepTexts(stageIndex, finalized) {
     }
   }
 
-  let fill = 0;
+  let visualFill = 0;
+  let shownPercent = 0;
 
   if (finalized) {
-    fill = 100;
+    visualFill = 80;
+    shownPercent = 100;
   } else if (stageIndex === 0) {
-    fill = 0;
+    visualFill = 0;
+    shownPercent = 0;
   } else if (stageIndex === 1) {
-    fill = 25 + (clamp(progressPercent, 1, 33.33) / 33.33) * 25;
+    const local = clamp(progressPercent / 33.33, 0, 1);
+    visualFill = 20 + (local * 20);
+    shownPercent = Math.round(clamp(progressPercent, 0, 99));
   } else if (stageIndex === 2) {
-    const local = clamp(progressPercent - 33.33, 0, 33.33);
-    fill = 50 + (local / 33.33) * 25;
+    const local = clamp((progressPercent - 33.33) / 33.33, 0, 1);
+    visualFill = 40 + (local * 20);
+    shownPercent = Math.round(clamp(progressPercent, 0, 99));
   } else if (stageIndex === 3) {
-    const local = clamp(progressPercent - 66.66, 0, 33.34);
-    fill = 75 + (local / 33.34) * 24;
+    const local = clamp((progressPercent - 66.66) / 33.34, 0, 1);
+    visualFill = 60 + (local * 20);
+    shownPercent = Math.round(clamp(progressPercent, 0, 99));
   }
 
-  document.getElementById("timelineFill").style.width = fill + "%";
-  document.getElementById("animProgressBar").style.width = fill + "%";
-  document.getElementById("percentText").innerText = Math.round(fill) + "%";
+  document.getElementById("timelineFill").style.width = visualFill + "%";
+  document.getElementById("animProgressBar").style.width = visualFill + "%";
+  document.getElementById("percentText").innerText = shownPercent + "%";
 
   updateStepTexts(stageIndex, finalized);
 }

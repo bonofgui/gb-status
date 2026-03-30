@@ -1,187 +1,1005 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>GB Estética Automotiva</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GB Estética Automotiva</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0b0b0b;
-  color: white;
-  text-align: center;
-}
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-2: #0c0c0c;
+      --card: rgba(18, 18, 18, 0.88);
+      --line: rgba(255, 136, 0, 0.22);
+      --orange: #ff8800;
+      --orange-2: #ff9f2f;
+      --white: #f5f5f5;
+      --muted: #bdbdbd;
+      --green: #17c964;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
 
-/* LOADING */
-#loading {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: #0b0b0b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  z-index: 10;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-/* CONTAINER */
-.container {
-  padding: 30px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at top left, rgba(255,136,0,0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(255,136,0,0.08), transparent 22%),
+        linear-gradient(180deg, #090909 0%, #050505 100%);
+      overflow-x: hidden;
+    }
 
-/* LOGO */
-.logo {
-  width: 180px;
-  margin-bottom: 20px;
-}
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background:
+        linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 45%, transparent 100%);
+    }
 
-/* CARD */
-.card {
-  background: #111;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 0 25px rgba(255,136,0,0.2);
-}
+    .frame {
+      position: fixed;
+      inset: 24px;
+      border: 1px solid rgba(255, 136, 0, 0.35);
+      pointer-events: none;
+      opacity: 0.9;
+    }
 
-/* STATUS */
-.status {
-  font-size: 22px;
-  margin-top: 10px;
-  color: #ff8800;
-}
+    .stripes-top,
+    .stripes-bottom {
+      position: fixed;
+      width: 260px;
+      height: 48px;
+      display: flex;
+      gap: 10px;
+      pointer-events: none;
+    }
 
-/* TIMELINE */
-.timeline {
-  margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-}
+    .stripes-top {
+      top: 18px;
+      left: 18px;
+    }
 
-.timeline::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: 5%;
-  width: 90%;
-  height: 4px;
-  background: #333;
-}
+    .stripes-bottom {
+      right: 18px;
+      bottom: 18px;
+      justify-content: flex-end;
+    }
 
-.step {
-  width: 20%;
-  text-align: center;
-}
+    .stripes-top span,
+    .stripes-bottom span {
+      width: 42px;
+      height: 14px;
+      background: linear-gradient(90deg, var(--orange), #ffab40);
+      transform: skewX(-40deg);
+      display: block;
+      box-shadow: 0 0 16px rgba(255, 136, 0, 0.28);
+    }
 
-.circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #333;
-  margin: auto;
-  line-height: 40px;
-}
+    #loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at center, rgba(255,136,0,0.10), transparent 35%),
+        linear-gradient(180deg, #080808 0%, #040404 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-.active {
-  background: #ff8800;
-  box-shadow: 0 0 10px #ff8800;
-}
+    .loading-card {
+      width: min(520px, 100%);
+      padding: 30px 24px;
+      border-radius: 24px;
+      background: rgba(15, 15, 15, 0.96);
+      border: 1px solid rgba(255, 136, 0, 0.28);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
 
-.done {
-  background: #00c853;
-}
+    .loading-logo {
+      width: 130px;
+      max-width: 60%;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 18px rgba(255, 136, 0, 0.18));
+    }
 
-/* CARRO */
-.car {
-  margin-top: 30px;
-  font-size: 50px;
-  transition: 0.5s;
-}
-</style>
+    .loading-title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
 
+    .loading-sub {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .loader-line {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader-line::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 35%;
+      background: linear-gradient(90deg, transparent, var(--orange), #ffb155, transparent);
+      animation: loadingMove 1.4s infinite linear;
+    }
+
+    @keyframes loadingMove {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(320%); }
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 42px 20px 60px;
+      position: relative;
+      z-index: 2;
+      display: none;
+    }
+
+    .hero {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-left {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -50px;
+      top: -50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,136,0,0.20), transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .brand-row img {
+      width: 100px;
+      height: auto;
+      filter: drop-shadow(0 0 18px rgba(255, 136, 0, 0.15));
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+    }
+
+    .brand-text p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .client-box {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,136,0,0.22);
+      background: rgba(255,136,0,0.08);
+      color: #ffd4a3;
+      font-size: 13px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .vehicle-name {
+      font-size: 34px;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .owner-name {
+      margin: 0;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .status-box {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,136,0,0.13), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,136,0,0.18);
+    }
+
+    .status-label {
+      font-size: 13px;
+      color: #ffc98a;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .status-value {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .status-desc {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .hero-right {
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+    }
+
+    .hero-right::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 80%, rgba(255,136,0,0.14), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      pointer-events: none;
+    }
+
+    .anim-scene {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        linear-gradient(180deg, #101010 0%, #0b0b0b 100%);
+      border: 1px solid rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+
+    .anim-floor {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 28px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(255,136,0,0.35), transparent);
+    }
+
+    .anim-progress {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 28px;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+    }
+
+    .anim-progress-bar {
+      position: absolute;
+      left: 10%;
+      bottom: 28px;
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--orange), #ffb155);
+      border-radius: 999px;
+      transition: width 1s linear;
+      box-shadow: 0 0 14px rgba(255,136,0,0.55);
+    }
+
+    .car-wrap {
+      position: absolute;
+      left: 10%;
+      bottom: 42px;
+      width: 80%;
+      height: 150px;
+    }
+
+    .car-emoji {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      font-size: 86px;
+      transition: transform 1s linear, filter 0.4s ease, opacity 0.4s ease;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45));
+    }
+
+    .dust,
+    .foam,
+    .water,
+    .shine {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .dust::before {
+      content: "✦ ✦ ✦";
+      position: absolute;
+      left: 12%;
+      top: 24%;
+      color: rgba(125, 93, 60, 0.78);
+      font-size: 22px;
+      letter-spacing: 16px;
+    }
+
+    .foam::before {
+      content: "◌ ◌ ◌ ◌ ◌";
+      position: absolute;
+      left: 14%;
+      top: 18%;
+      color: rgba(255,255,255,0.82);
+      font-size: 34px;
+      letter-spacing: 10px;
+      animation: foamFloat 1.6s infinite ease-in-out;
+    }
+
+    .water::before {
+      content: "💧 💧 💧 💧 💧";
+      position: absolute;
+      left: 18%;
+      top: 16%;
+      font-size: 28px;
+      letter-spacing: 10px;
+      animation: waterDrop 1.2s infinite linear;
+    }
+
+    .shine::before {
+      content: "✨ ✨ ✨";
+      position: absolute;
+      left: 20%;
+      top: 16%;
+      color: #ffd38c;
+      font-size: 28px;
+      letter-spacing: 18px;
+      animation: shinePulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes foamFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes waterDrop {
+      0% { transform: translateY(-8px); opacity: 0.25; }
+      50% { opacity: 1; }
+      100% { transform: translateY(12px); opacity: 0.15; }
+    }
+
+    @keyframes shinePulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    .progress-section {
+      margin-top: 26px;
+      padding: 28px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .percent-box {
+      padding: 12px 18px;
+      border-radius: 18px;
+      background: rgba(255,136,0,0.10);
+      border: 1px solid rgba(255,136,0,0.18);
+      min-width: 130px;
+      text-align: center;
+    }
+
+    .percent-box strong {
+      display: block;
+      font-size: 26px;
+      color: var(--orange-2);
+    }
+
+    .percent-box span {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 28px;
+      height: 4px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 999px;
+      z-index: 0;
+    }
+
+    .timeline-line-fill {
+      position: absolute;
+      left: 10%;
+      top: 28px;
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--orange), #ffb155);
+      border-radius: 999px;
+      z-index: 1;
+      transition: width 1s linear;
+      box-shadow: 0 0 16px rgba(255,136,0,0.45);
+    }
+
+    .step {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-top: 4px;
+    }
+
+    .step-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #bfbfbf;
+      transition: 0.35s ease;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+      padding: 0 8px;
+    }
+
+    .step.done .step-circle {
+      background: rgba(23,201,100,0.18);
+      color: #8ff0ba;
+      border-color: rgba(23,201,100,0.28);
+      box-shadow: 0 0 14px rgba(23,201,100,0.18);
+    }
+
+    .step.active .step-circle {
+      background: rgba(255,136,0,0.16);
+      color: #ffd39f;
+      border-color: rgba(255,136,0,0.35);
+      box-shadow: 0 0 18px rgba(255,136,0,0.24);
+      transform: scale(1.06);
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      color: #8f8f8f;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .final-chip {
+      display: none;
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 18px;
+      background: rgba(23,201,100,0.12);
+      border: 1px solid rgba(23,201,100,0.24);
+      color: #adf3cc;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .error-box {
+      display: none;
+      max-width: 760px;
+      margin: 80px auto 0;
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(35, 10, 10, 0.88);
+      border: 1px solid rgba(255, 80, 80, 0.18);
+      color: #ffd0d0;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .timeline-line,
+      .timeline-line-fill {
+        display: none;
+      }
+
+      .step {
+        text-align: left;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .step-circle {
+        margin: 0;
+      }
+
+      .section-head h2,
+      .vehicle-name,
+      .brand-text h1 {
+        font-size: 28px;
+      }
+
+      .car-emoji {
+        font-size: 72px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-overlay"></div>
+  <div class="frame"></div>
 
-<div id="loading">🚗 Carregando status do veículo...</div>
-
-<div class="container" style="display:none" id="conteudo">
-
-<img src="logo.png" class="logo">
-
-<div class="card">
-  <h2 id="carro"></h2>
-  <div class="status" id="status"></div>
-
-  <div class="timeline">
-    <div class="step"><div class="circle" id="s1">1</div><small>Recebido</small></div>
-    <div class="step"><div class="circle" id="s2">2</div><small>Pré-lavagem</small></div>
-    <div class="step"><div class="circle" id="s3">3</div><small>Lavando</small></div>
-    <div class="step"><div class="circle" id="s4">4</div><small>Finalização</small></div>
-    <div class="step"><div class="circle" id="s5">5</div><small>Pronto</small></div>
+  <div class="stripes-top">
+    <span></span><span></span><span></span><span></span><span></span>
   </div>
 
-  <div class="car" id="carAnim">🚗</div>
-</div>
+  <div class="stripes-bottom">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
-</div>
+  <div id="loading">
+    <div class="loading-card">
+      <img src="logo.png" alt="GB Logo" class="loading-logo" />
+      <div class="loading-title">Carregando status do veículo</div>
+      <div class="loading-sub">Aguarde um instante enquanto buscamos as informações da sua lavagem.</div>
+      <div class="loader-line"></div>
+    </div>
+  </div>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+  <div id="errorBox" class="error-box"></div>
 
-let inicio = null;
-let tempoTotal = 0;
+  <main id="page" class="page">
+    <section class="hero">
+      <div class="card hero-left">
+        <div class="brand-row">
+          <img src="logo.png" alt="GB Estética Automotiva" />
+          <div class="brand-text">
+            <h1>GB</h1>
+            <p>Estética Automotiva</p>
+          </div>
+        </div>
 
-function atualizarTimeline(progresso) {
-  const etapas = ["s1","s2","s3","s4","s5"];
-  const pos = Math.floor(progresso * 5);
+        <div class="client-box">
+          <div class="info-badge">STATUS ONLINE DO VEÍCULO</div>
+          <h2 id="vehicleName" class="vehicle-name">Carregando...</h2>
+          <p id="ownerName" class="owner-name">Cliente</p>
 
-  etapas.forEach((id, i) => {
-    const el = document.getElementById(id);
-    el.classList.remove("active","done");
+          <div class="status-box">
+            <div class="status-label">Status atual</div>
+            <p id="statusValue" class="status-value">Recebido</p>
+            <div id="statusDesc" class="status-desc">
+              Seu veículo foi recebido e está na fila de preparação.
+            </div>
+            <div id="finalChip" class="final-chip">
+              ✅ Lavagem finalizada com sucesso.
+            </div>
+          </div>
+        </div>
+      </div>
 
-    if(i < pos) el.classList.add("done");
-    if(i === pos) el.classList.add("active");
-  });
+      <div class="card hero-right">
+        <div class="anim-scene">
+          <div class="anim-progress"></div>
+          <div id="animProgressBar" class="anim-progress-bar"></div>
+          <div class="car-wrap">
+            <div id="dust" class="dust"></div>
+            <div id="foam" class="foam"></div>
+            <div id="water" class="water"></div>
+            <div id="shine" class="shine"></div>
+            <div id="carEmoji" class="car-emoji">🚗</div>
+          </div>
+          <div class="anim-floor"></div>
+        </div>
+      </div>
+    </section>
 
-  document.getElementById("carAnim").style.transform =
-    "translateX(" + (progresso * 200) + "px)";
-}
+    <section class="card progress-section">
+      <div class="section-head">
+        <div>
+          <h2>Acompanhamento da lavagem</h2>
+          <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
+        </div>
 
-function carregar() {
-  fetch("https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec?id=" + id)
-    .then(r => r.json())
-    .then(data => {
+        <div class="percent-box">
+          <strong id="percentText">0%</strong>
+          <span>concluído</span>
+        </div>
+      </div>
 
-      document.getElementById("carro").innerText = data.carro;
-      document.getElementById("status").innerText = data.status;
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        <div id="timelineFill" class="timeline-line-fill"></div>
 
-      inicio = new Date(data.inicio).getTime();
-      tempoTotal = data.tempo * 60000;
+        <div class="step" id="step0">
+          <div class="step-circle">📥</div>
+          <div>
+            <div class="step-title">Recebido</div>
+            <div class="step-text">Veículo recebido e preparado para iniciar o serviço.</div>
+          </div>
+        </div>
 
+        <div class="step" id="step1">
+          <div class="step-circle">🧽</div>
+          <div>
+            <div class="step-title">Pré-lavagem</div>
+            <div class="step-text">Primeira etapa para remoção inicial de sujeira e preparação da superfície.</div>
+          </div>
+        </div>
+
+        <div class="step" id="step2">
+          <div class="step-circle">🫧</div>
+          <div>
+            <div class="step-title">Lavando</div>
+            <div class="step-text">Etapa principal de limpeza com shampoo e cuidado completo do veículo.</div>
+          </div>
+        </div>
+
+        <div class="step" id="step3">
+          <div class="step-circle">💦</div>
+          <div>
+            <div class="step-title">Finalização</div>
+            <div class="step-text">Enxágue, acabamento e últimos detalhes para entrega.</div>
+          </div>
+        </div>
+
+        <div class="step" id="step4">
+          <div class="step-circle">✅</div>
+          <div>
+            <div class="step-title">Finalizado</div>
+            <div class="step-text">Só aparece quando você finalizar oficialmente no sistema.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Atualização automática a cada 5 segundos.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec";
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    let currentData = null;
+    let lastStageIndex = 0;
+    let liveTimer = null;
+
+    const STAGES = [
+      {
+        name: "Recebido",
+        desc: "Seu veículo foi recebido e está na fila de preparação.",
+        emoji: "🚗"
+      },
+      {
+        name: "Pré-lavagem",
+        desc: "Iniciamos a preparação e remoção inicial da sujeira.",
+        emoji: "🚙"
+      },
+      {
+        name: "Lavando",
+        desc: "Seu veículo está passando pela etapa principal de lavagem.",
+        emoji: "🚘"
+      },
+      {
+        name: "Finalização",
+        desc: "Estamos nos detalhes finais para deixar tudo pronto.",
+        emoji: "🚖"
+      },
+      {
+        name: "Finalizado",
+        desc: "Seu veículo está pronto. Obrigado por escolher a GB Estética Automotiva.",
+        emoji: "✨"
+      }
+    ];
+
+    function showError(msg) {
       document.getElementById("loading").style.display = "none";
-      document.getElementById("conteudo").style.display = "block";
-    });
-}
+      const errorBox = document.getElementById("errorBox");
+      errorBox.style.display = "block";
+      errorBox.innerHTML = msg;
+    }
 
-function loop() {
-  if(inicio && tempoTotal) {
-    const agora = Date.now();
-    let progresso = (agora - inicio) / tempoTotal;
+    function parseDateFlexible(value) {
+      if (!value) return null;
 
-    if(progresso > 1) progresso = 1;
+      if (typeof value === "string") {
+        const direct = new Date(value);
+        if (!isNaN(direct.getTime())) return direct;
 
-    atualizarTimeline(progresso);
-  }
-}
+        const br = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})[ ,]+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+        if (br) {
+          const [, d, m, y, hh, mm, ss] = br;
+          return new Date(
+            Number(y),
+            Number(m) - 1,
+            Number(d),
+            Number(hh),
+            Number(mm),
+            Number(ss || 0)
+          );
+        }
+      }
 
-carregar();
-setInterval(carregar, 5000);
-setInterval(loop, 1000);
-</script>
+      return null;
+    }
 
+    function normalizeText(text) {
+      return String(text || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function isFinalized(status) {
+      const s = normalizeText(status);
+      return s === "finalizado" || s === "finalizada" || s === "concluido" || s === "concluida" || s === "pronto";
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function getAutoStage(progress) {
+      if (progress < 0.25) return 0; // Recebido
+      if (progress < 0.50) return 1; // Pré-lavagem
+      if (progress < 0.85) return 2; // Lavando
+      return 3; // Finalização
+    }
+
+    function updateTimeline(stageIndex, progressPercent, finalized) {
+      for (let i = 0; i <= 4; i++) {
+        const step = document.getElementById("step" + i);
+        step.classList.remove("done", "active");
+
+        if (finalized) {
+          if (i < 4) step.classList.add("done");
+          if (i === 4) step.classList.add("active");
+        } else {
+          if (i < stageIndex) step.classList.add("done");
+          if (i === stageIndex) step.classList.add("active");
+        }
+      }
+
+      const fill = finalized ? 100 : clamp(progressPercent, 0, 99);
+      document.getElementById("timelineFill").style.width = fill + "%";
+      document.getElementById("animProgressBar").style.width = fill + "%";
+      document.getElementById("percentText").innerText = Math.round(fill) + "%";
+    }
+
+    function updateAnimation(stageIndex, progressPercent, finalized) {
+      const car = document.getElementById("carEmoji");
+      const dust = document.getElementById("dust");
+      const foam = document.getElementById("foam");
+      const water = document.getElementById("water");
+      const shine = document.getElementById("shine");
+
+      dust.style.opacity = "0";
+      foam.style.opacity = "0";
+      water.style.opacity = "0";
+      shine.style.opacity = "0";
+
+      const travel = finalized ? 100 : clamp(progressPercent, 0, 95);
+      car.style.transform = `translateX(${travel}%)`;
+
+      if (finalized) {
+        car.innerText = "✨";
+        shine.style.opacity = "1";
+        return;
+      }
+
+      if (stageIndex === 0) {
+        car.innerText = "🚗";
+        dust.style.opacity = "1";
+      } else if (stageIndex === 1) {
+        car.innerText = "🚙";
+        foam.style.opacity = "1";
+      } else if (stageIndex === 2) {
+        car.innerText = "🚘";
+        foam.style.opacity = "1";
+        water.style.opacity = "0.7";
+      } else if (stageIndex === 3) {
+        car.innerText = "🚖";
+        water.style.opacity = "1";
+        shine.style.opacity = "0.65";
+      }
+    }
+
+    function renderStatus(data) {
+      const vehicleName = document.getElementById("vehicleName");
+      const ownerName = document.getElementById("ownerName");
+      const statusValue = document.getElementById("statusValue");
+      const statusDesc = document.getElementById("statusDesc");
+      const finalChip = document.getElementById("finalChip");
+
+      vehicleName.innerText = data.carro || "Veículo";
+      ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
+
+      const tempoMin = Number(data.tempo || 0);
+      const inicioDate = parseDateFlexible(data.inicio);
+      const manualFinal = isFinalized(data.status);
+
+      if (manualFinal) {
+        statusValue.innerText = "Finalizado";
+        statusDesc.innerText = STAGES[4].desc;
+        finalChip.style.display = "inline-block";
+        updateTimeline(4, 100, true);
+        updateAnimation(4, 100, true);
+        lastStageIndex = 4;
+        return;
+      }
+
+      finalChip.style.display = "none";
+
+      if (!inicioDate || !tempoMin || tempoMin <= 0) {
+        statusValue.innerText = "Recebido";
+        statusDesc.innerText = STAGES[0].desc;
+        updateTimeline(0, 0, false);
+        updateAnimation(0, 0, false);
+        lastStageIndex = 0;
+        return;
+      }
+
+      const now = new Date();
+      const totalMs = tempoMin * 60 * 1000;
+      const elapsedMs = now.getTime() - inicioDate.getTime();
+      const progress = clamp(elapsedMs / totalMs, 0, 1);
+      const progressPercent = progress * 100;
+      const stageIndex = getAutoStage(progress);
+
+      statusValue.innerText = STAGES[stageIndex].name;
+      statusDesc.innerText = STAGES[stageIndex].desc;
+
+      updateTimeline(stageIndex, progressPercent, false);
+      updateAnimation(stageIndex, progressPercent, false);
+
+      lastStageIndex = stageIndex;
+    }
+
+    async function carregar() {
+      if (!id) {
+        showError("Link inválido. O código do veículo não foi informado.");
+        return;
+      }
+
+      try {
+        const resp = await fetch(API_URL + "?id=" + encodeURIComponent(id));
+        const data = await resp.json();
+
+        if (data.erro) {
+          showError("Veículo não encontrado.");
+          return;
+        }
+
+        currentData = data;
+        renderStatus(data);
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("page").style.display = "block";
+      } catch (error) {
+        showError("Erro ao carregar o status. Tente novamente em instantes.");
+      }
+    }
+
+    function tickLocal() {
+      if (!currentData) return;
+      renderStatus(currentData);
+    }
+
+    carregar();
+    liveTimer = setInterval(tickLocal, 1000);
+    setInterval(carregar, 5000);
+  </script>
 </body>
 </html>

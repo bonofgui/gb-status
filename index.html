@@ -7,68 +7,78 @@
 
   <style>
     :root {
-      --bg: #050505;
-      --card: rgba(18, 18, 18, 0.88);
-      --orange: #ff8800;
-      --orange-2: #ff9f2f;
-      --white: #f5f5f5;
-      --muted: #bdbdbd;
-      --green: #17c964;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --bg: #060606;
+      --bg-2: #0b0b0b;
+      --card: rgba(12, 12, 12, 0.82);
+      --card-2: rgba(18, 18, 18, 0.92);
+      --orange: #ff8a00;
+      --orange-2: #ffb347;
+      --orange-soft: rgba(255, 138, 0, 0.12);
+      --white: #f5f5f7;
+      --muted: #b7b7bd;
+      --muted-2: #8d8d96;
+      --green: #18c964;
+      --green-soft: rgba(24, 201, 100, 0.14);
+      --line: rgba(255, 255, 255, 0.08);
+      --shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 20px;
     }
 
     * { box-sizing: border-box; }
 
-    body {
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--white);
       background:
-        radial-gradient(circle at top left, rgba(255,136,0,0.12), transparent 28%),
-        radial-gradient(circle at top right, rgba(255,136,0,0.08), transparent 22%),
-        linear-gradient(180deg, #090909 0%, #050505 100%);
+        radial-gradient(circle at top left, rgba(255,138,0,0.18), transparent 22%),
+        radial-gradient(circle at 100% 0%, rgba(255,138,0,0.12), transparent 20%),
+        radial-gradient(circle at 50% 100%, rgba(255,138,0,0.08), transparent 30%),
+        linear-gradient(180deg, #090909 0%, #040404 100%);
       overflow-x: hidden;
     }
 
-    .bg-overlay {
+    body::before {
+      content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.18;
       background:
-        linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 45%, transparent 100%);
+        linear-gradient(90deg, rgba(255,138,0,0.06) 0, transparent 14%, transparent 86%, rgba(255,138,0,0.06) 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 20%);
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.35));
+      opacity: 0.8;
     }
 
     .frame {
       position: fixed;
-      inset: 24px;
-      border: 1px solid rgba(255, 136, 0, 0.35);
+      inset: 12px;
+      border: 1px solid rgba(255, 138, 0, 0.22);
       pointer-events: none;
       opacity: 0.9;
+      z-index: 0;
     }
 
-    .stripes-top,
-    .stripes-bottom {
+    .stripes-top {
       position: fixed;
-      width: 260px;
-      height: 48px;
+      top: 0;
+      left: 0;
       display: flex;
       gap: 10px;
+      padding: 0 0 0 10px;
+      z-index: 1;
       pointer-events: none;
     }
 
-    .stripes-top { top: 18px; left: 18px; }
-    .stripes-bottom { right: 18px; bottom: 18px; justify-content: flex-end; }
-
-    .stripes-top span,
-    .stripes-bottom span {
-      width: 42px;
-      height: 14px;
-      background: linear-gradient(90deg, var(--orange), #ffab40);
-      transform: skewX(-40deg);
-      display: block;
-      box-shadow: 0 0 16px rgba(255, 136, 0, 0.28);
+    .stripes-top span {
+      width: 56px;
+      height: 16px;
+      background: linear-gradient(90deg, var(--orange), #ffb652);
+      transform: skewX(-42deg);
+      box-shadow: 0 0 18px rgba(255, 138, 0, 0.28);
     }
 
     #loading {
@@ -76,8 +86,8 @@
       inset: 0;
       z-index: 9999;
       background:
-        radial-gradient(circle at center, rgba(255,136,0,0.10), transparent 35%),
-        linear-gradient(180deg, #080808 0%, #040404 100%);
+        radial-gradient(circle at center, rgba(255,138,0,0.10), transparent 28%),
+        linear-gradient(180deg, #070707 0%, #040404 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -85,33 +95,33 @@
     }
 
     .loading-card {
-      width: min(520px, 100%);
-      padding: 30px 24px;
-      border-radius: 24px;
-      background: rgba(15, 15, 15, 0.96);
-      border: 1px solid rgba(255, 136, 0, 0.28);
+      width: min(540px, 100%);
+      padding: 34px 28px;
+      border-radius: 28px;
+      background: rgba(13, 13, 13, 0.96);
+      border: 1px solid rgba(255, 138, 0, 0.26);
       box-shadow: var(--shadow);
       text-align: center;
     }
 
     .loading-logo {
-      width: 130px;
-      max-width: 60%;
+      width: 150px;
+      max-width: 68%;
       margin-bottom: 18px;
-      filter: drop-shadow(0 0 18px rgba(255, 136, 0, 0.18));
+      filter: drop-shadow(0 0 18px rgba(255, 138, 0, 0.22));
     }
 
     .loading-title {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 900;
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
+      margin-bottom: 10px;
     }
 
     .loading-sub {
       color: var(--muted);
       font-size: 15px;
       margin-bottom: 24px;
+      line-height: 1.5;
     }
 
     .loader-line {
@@ -128,8 +138,8 @@
       position: absolute;
       inset: 0;
       width: 35%;
-      background: linear-gradient(90deg, transparent, var(--orange), #ffb155, transparent);
-      animation: loadingMove 1.4s infinite linear;
+      background: linear-gradient(90deg, transparent, var(--orange), #ffbb61, transparent);
+      animation: loadingMove 1.3s infinite linear;
     }
 
     @keyframes loadingMove {
@@ -138,180 +148,327 @@
     }
 
     .page {
-      max-width: 1180px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 42px 20px 60px;
+      padding: 42px 22px 70px;
       position: relative;
       z-index: 2;
       display: none;
     }
 
-    .hero {
-      margin-top: 18px;
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 26px;
+      grid-template-columns: 420px 1fr;
+      gap: 24px;
       align-items: stretch;
+      margin-top: 10px;
     }
 
     .card {
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(18,18,18,0.96), rgba(10,10,10,0.96));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-    }
-
-    .hero-left {
-      padding: 28px;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
     }
 
-    .hero-left::after {
+    .card::before {
       content: "";
       position: absolute;
-      width: 240px;
-      height: 240px;
-      right: -50px;
-      top: -50px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,136,0,0.20), transparent 70%);
+      inset: 0;
       pointer-events: none;
+      background:
+        radial-gradient(circle at top right, rgba(255,138,0,0.14), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 28%);
     }
 
-    .brand-row {
+    .brand-card {
+      padding: 34px 30px;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 520px;
     }
 
-    .brand-row img {
-      width: 100px;
-      height: auto;
-      filter: drop-shadow(0 0 18px rgba(255, 136, 0, 0.15));
+    .brand-top {
+      position: relative;
+      z-index: 1;
     }
 
-    .brand-text h1 {
-      margin: 0;
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: 0.6px;
-    }
-
-    .brand-text p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .client-box {
-      margin-top: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .info-badge {
+    .brand-badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255,136,0,0.22);
-      background: rgba(255,136,0,0.08);
-      color: #ffd4a3;
-      font-size: 13px;
-      font-weight: 700;
+      border: 1px solid rgba(255, 138, 0, 0.25);
+      background: rgba(255, 138, 0, 0.08);
+      color: #ffd29a;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .brand-logo-wrap {
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 26px 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 240px;
+      margin-bottom: 26px;
+    }
+
+    .brand-logo-wrap img {
+      width: 250px;
+      max-width: 90%;
+      filter: drop-shadow(0 0 20px rgba(255, 138, 0, 0.22));
+    }
+
+    .brand-name {
+      font-size: 46px;
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .brand-bottom {
+      position: relative;
+      z-index: 1;
+      margin-top: 28px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .brand-mini {
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .brand-mini strong {
+      display: block;
+      font-size: 14px;
+      color: #ffd29a;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .brand-mini span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      display: block;
+    }
+
+    .main-column {
+      display: grid;
+      gap: 24px;
+    }
+
+    .spotlight-card {
+      padding: 30px;
+      min-height: 260px;
+    }
+
+    .spotlight-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 138, 0, 0.08);
+      border: 1px solid rgba(255, 138, 0, 0.20);
+      color: #ffd39f;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .hero-copy-block {
+      margin-top: 22px;
+      max-width: 800px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy-block h1 {
+      margin: 0 0 10px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .hero-copy-block p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .spotlight-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.05);
+      min-height: 92px;
+    }
+
+    .meta-card span {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffca8c;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+      word-break: break-word;
+    }
+
+    .status-hero {
+      margin-top: 18px;
+      padding: 22px 24px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,138,0,0.12), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,138,0,0.16);
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-hero-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #ffd29a;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .status-hero-value {
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 900;
+      line-height: 1;
+      margin: 0 0 10px;
+    }
+
+    .status-hero-desc {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      max-width: 820px;
+    }
+
+    .final-chip {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(24, 201, 100, 0.14);
+      border: 1px solid rgba(24, 201, 100, 0.22);
+      color: #b5f3d2;
+      font-weight: 800;
+      font-size: 15px;
       width: fit-content;
     }
 
-    .vehicle-name {
-      font-size: 34px;
-      font-weight: 900;
-      margin: 0;
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
     }
 
-    .owner-name {
-      margin: 0;
-      font-size: 16px;
-      color: var(--muted);
+    .animation-card,
+    .info-side-card {
+      padding: 26px;
+      min-height: 300px;
     }
 
-    .status-box {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(255,136,0,0.13), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,136,0,0.18);
-    }
-
-    .status-label {
-      font-size: 13px;
-      color: #ffc98a;
+    .section-kicker {
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-    }
-
-    .status-value {
-      font-size: 28px;
-      font-weight: 900;
-      margin: 0;
-    }
-
-    .status-desc {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .hero-right {
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      letter-spacing: 1.2px;
+      color: #ffd29a;
+      font-weight: 800;
+      margin-bottom: 16px;
       position: relative;
-      overflow: hidden;
-      min-height: 360px;
-    }
-
-    .hero-right::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 50% 80%, rgba(255,136,0,0.14), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      pointer-events: none;
+      z-index: 1;
     }
 
     .anim-scene {
       position: relative;
       width: 100%;
-      height: 260px;
-      border-radius: 24px;
+      height: 240px;
+      border-radius: 28px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-        linear-gradient(180deg, #101010 0%, #0b0b0b 100%);
-      border: 1px solid rgba(255,255,255,0.04);
+        radial-gradient(circle at 50% 80%, rgba(255,138,0,0.12), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
+        linear-gradient(180deg, #101010 0%, #090909 100%);
+      border: 1px solid rgba(255,255,255,0.05);
       overflow: hidden;
+      z-index: 1;
+    }
+
+    .anim-dots {
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 26px;
+      opacity: 0.75;
+      font-size: 24px;
+      color: rgba(255,255,255,0.7);
+      pointer-events: none;
     }
 
     .anim-floor {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 28px;
-      height: 4px;
-      background: linear-gradient(90deg, transparent, rgba(255,136,0,0.35), transparent);
-    }
-
-    .anim-progress {
       position: absolute;
       left: 10%;
       right: 10%;
@@ -330,15 +487,15 @@
       background: linear-gradient(90deg, var(--orange), #ffb155);
       border-radius: 999px;
       transition: width 1s linear;
-      box-shadow: 0 0 14px rgba(255,136,0,0.55);
+      box-shadow: 0 0 16px rgba(255,138,0,0.45);
     }
 
     .car-wrap {
       position: absolute;
       left: 10%;
-      bottom: 42px;
       width: 80%;
       height: 150px;
+      bottom: 44px;
     }
 
     .car-emoji {
@@ -416,9 +573,40 @@
       50% { transform: scale(1.15); opacity: 1; }
     }
 
+    .info-side-card-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .info-box {
+      padding: 18px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info-box strong {
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffd29a;
+      margin-bottom: 10px;
+    }
+
+    .info-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
     .progress-section {
       margin-top: 26px;
-      padding: 28px;
+      padding: 30px 28px 24px;
     }
 
     .section-head {
@@ -426,35 +614,43 @@
       justify-content: space-between;
       align-items: end;
       gap: 18px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .section-head h2 {
       margin: 0;
-      font-size: 30px;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1;
       font-weight: 900;
+      letter-spacing: -0.8px;
     }
 
     .section-head p {
-      margin: 6px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 15px;
+      font-size: 17px;
+      line-height: 1.5;
     }
 
     .percent-box {
-      padding: 12px 18px;
-      border-radius: 18px;
-      background: rgba(255,136,0,0.10);
-      border: 1px solid rgba(255,136,0,0.18);
-      min-width: 130px;
+      padding: 14px 20px;
+      border-radius: 20px;
+      background: rgba(255,138,0,0.10);
+      border: 1px solid rgba(255,138,0,0.18);
+      min-width: 128px;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .percent-box strong {
       display: block;
-      font-size: 26px;
+      font-size: 28px;
       color: var(--orange-2);
+      line-height: 1;
     }
 
     .percent-box span {
@@ -470,7 +666,8 @@
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       align-items: start;
-      margin-top: 18px;
+      margin-top: 22px;
+      z-index: 1;
     }
 
     .timeline-line {
@@ -494,7 +691,7 @@
       border-radius: 999px;
       z-index: 1;
       transition: width 1s linear;
-      box-shadow: 0 0 16px rgba(255,136,0,0.45);
+      box-shadow: 0 0 16px rgba(255,138,0,0.45);
     }
 
     .step {
@@ -526,14 +723,14 @@
     }
 
     .step-text {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.45;
-  padding: 0 8px;
-  min-height: 20px;
-  opacity: 0;
-  transition: 0.25s ease;
-}
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 0 8px;
+      min-height: 20px;
+      opacity: 0;
+      transition: 0.25s ease;
+    }
 
     .step.done .step-circle {
       background: rgba(23,201,100,0.18);
@@ -543,30 +740,20 @@
     }
 
     .step.active .step-circle {
-      background: rgba(255,136,0,0.16);
+      background: rgba(255,138,0,0.16);
       color: #ffd39f;
-      border-color: rgba(255,136,0,0.35);
-      box-shadow: 0 0 18px rgba(255,136,0,0.24);
+      border-color: rgba(255,138,0,0.35);
+      box-shadow: 0 0 18px rgba(255,138,0,0.24);
       transform: scale(1.06);
     }
 
     .footer-note {
       margin-top: 28px;
       color: #8f8f8f;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .final-chip {
-      display: none;
-      margin-top: 18px;
-      padding: 14px 18px;
-      border-radius: 18px;
-      background: rgba(23,201,100,0.12);
-      border: 1px solid rgba(23,201,100,0.24);
-      color: #adf3cc;
-      font-weight: 800;
-      font-size: 15px;
+      font-size: 14px;
+      text-align: left;
+      position: relative;
+      z-index: 1;
     }
 
     .error-box {
@@ -582,10 +769,36 @@
       box-shadow: var(--shadow);
     }
 
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-card {
+        min-height: auto;
+      }
+
+      .spotlight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 980px) {
-      .hero { grid-template-columns: 1fr; }
-      .timeline { grid-template-columns: 1fr; gap: 18px; }
-      .timeline-line, .timeline-line-fill { display: none; }
+      .page {
+        padding: 32px 14px 50px;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .timeline-line,
+      .timeline-line-fill {
+        display: none;
+      }
+
       .step {
         text-align: left;
         padding: 0;
@@ -594,21 +807,31 @@
         gap: 12px;
         align-items: start;
       }
-      .step-circle { margin: 0; }
-      .section-head h2, .vehicle-name, .brand-text h1 { font-size: 28px; }
-      .car-emoji { font-size: 72px; }
+
+      .step-circle {
+        margin: 0;
+      }
+
+      .car-emoji {
+        font-size: 72px;
+      }
+
+      .section-head h2,
+      .hero-copy-block h1,
+      .brand-name {
+        font-size: 30px;
+      }
+
+      .meta-card strong {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="bg-overlay"></div>
   <div class="frame"></div>
 
   <div class="stripes-top">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
-  <div class="stripes-bottom">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 
@@ -624,47 +847,109 @@
   <div id="errorBox" class="error-box"></div>
 
   <main id="page" class="page">
-    <section class="hero">
-      <div class="card hero-left">
-        <div class="brand-row">
-          <img src="logo.png" alt="GB Estética Automotiva" />
-          <div class="brand-text">
-            <h1>GB</h1>
-            <p>Estética Automotiva</p>
+    <section class="hero-grid">
+      <aside class="card brand-card">
+        <div class="brand-top">
+          <div class="brand-badge">GB Estética Automotiva</div>
+
+          <div class="brand-logo-wrap">
+            <img src="logo.png" alt="GB Estética Automotiva" />
           </div>
+
+          <h2 class="brand-name">Padrão premium em cada detalhe.</h2>
+          <p class="brand-sub">
+            Acompanhe em tempo real cada etapa da lavagem do seu veículo com uma experiência visual mais elegante e profissional.
+          </p>
         </div>
 
-        <div class="client-box">
-          <div class="info-badge">STATUS ONLINE DO VEÍCULO</div>
-          <h2 id="vehicleName" class="vehicle-name">Carregando...</h2>
-          <p id="ownerName" class="owner-name">Cliente</p>
+        <div class="brand-bottom">
+          <div class="brand-mini">
+            <strong>Atualização automática</strong>
+            <span>O status é atualizado sozinho conforme o andamento do serviço e o tempo configurado no sistema.</span>
+          </div>
 
-          <div class="status-box">
-            <div class="status-label">Status atual</div>
-            <p id="statusValue" class="status-value">Recebido</p>
-            <div id="statusDesc" class="status-desc">
-              Seu veículo foi recebido e está na fila de preparação.
+          <div class="brand-mini">
+            <strong>Entrega com transparência</strong>
+            <span>Você acompanha o que já foi concluído, o que está em andamento e quando o veículo estiver pronto.</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <section class="card spotlight-card">
+          <div class="spotlight-top">
+            <div class="eyebrow">Status online do veículo</div>
+          </div>
+
+          <div class="hero-copy-block">
+            <h1 id="greetingTitle">Oi, cliente.</h1>
+            <p id="heroMessage">Seu veículo está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.</p>
+          </div>
+
+          <div class="spotlight-grid">
+            <div class="meta-card">
+              <span>Veículo</span>
+              <strong id="vehicleName">Carregando...</strong>
             </div>
-            <div id="finalChip" class="final-chip">
-              ✅ Lavagem finalizada com sucesso.
+
+            <div class="meta-card" id="plateCard">
+              <span>Placa</span>
+              <strong id="vehiclePlate">Não informada</strong>
+            </div>
+
+            <div class="meta-card" id="phoneCard">
+              <span>Contato</span>
+              <strong id="ownerPhone">Não informado</strong>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="card hero-right">
-        <div class="anim-scene">
-          <div class="anim-progress"></div>
-          <div id="animProgressBar" class="anim-progress-bar"></div>
-          <div class="car-wrap">
-            <div id="dust" class="dust"></div>
-            <div id="foam" class="foam"></div>
-            <div id="water" class="water"></div>
-            <div id="shine" class="shine"></div>
-            <div id="carEmoji" class="car-emoji">🚗</div>
+          <div class="status-hero">
+            <div class="status-hero-label">Status atual</div>
+            <p id="statusValue" class="status-hero-value">Recebido</p>
+            <p id="statusDesc" class="status-hero-desc">Seu veículo foi recebido e está na fila de preparação.</p>
+            <div id="finalChip" class="final-chip">✅ Lavagem finalizada com sucesso.</div>
           </div>
-          <div class="anim-floor"></div>
-        </div>
+        </section>
+
+        <section class="showcase-grid">
+          <section class="card animation-card">
+            <div class="section-kicker">Acompanhamento visual</div>
+
+            <div class="anim-scene">
+              <div class="anim-dots">◌ ◌ ◌ ◌ ◌</div>
+              <div id="animProgressBar" class="anim-progress-bar"></div>
+              <div class="car-wrap">
+                <div id="dust" class="dust"></div>
+                <div id="foam" class="foam"></div>
+                <div id="water" class="water"></div>
+                <div id="shine" class="shine"></div>
+                <div id="carEmoji" class="car-emoji">🚗</div>
+              </div>
+              <div class="anim-floor"></div>
+            </div>
+          </section>
+
+          <section class="card info-side-card">
+            <div class="info-side-card-content">
+              <div class="section-kicker">Resumo do atendimento</div>
+
+              <div class="info-box">
+                <strong>Cliente</strong>
+                <span id="ownerName">Cliente</span>
+              </div>
+
+              <div class="info-box">
+                <strong>Veículo em atendimento</strong>
+                <span id="vehicleSummary">Aguardando dados do veículo.</span>
+              </div>
+
+              <div class="info-box">
+                <strong>Observação</strong>
+                <span>O status “Finalizado” só aparece quando a finalização for confirmada oficialmente no sistema.</span>
+              </div>
+            </div>
+          </section>
+        </section>
       </div>
     </section>
 
@@ -686,44 +971,45 @@
         <div id="timelineFill" class="timeline-line-fill"></div>
 
         <div class="step" id="step0">
-  <div class="step-circle">📥</div>
-  <div>
-    <div class="step-title">Recebido</div>
-    <div class="step-text" data-desc="Veículo recebido e preparado para iniciar o serviço."></div>
-  </div>
-</div>
+          <div class="step-circle">📥</div>
+          <div>
+            <div class="step-title">Recebido</div>
+            <div class="step-text" data-desc="Veículo recebido e preparado para iniciar o serviço."></div>
+          </div>
+        </div>
 
-<div class="step" id="step1">
-  <div class="step-circle">🧽</div>
-  <div>
-    <div class="step-title">Pré-lavagem</div>
-    <div class="step-text" data-desc="Primeira etapa para remoção inicial de sujeira e preparação da superfície."></div>
-  </div>
-</div>
+        <div class="step" id="step1">
+          <div class="step-circle">🧽</div>
+          <div>
+            <div class="step-title">Pré-lavagem</div>
+            <div class="step-text" data-desc="Primeira etapa para remoção inicial de sujeira e preparação da superfície."></div>
+          </div>
+        </div>
 
-<div class="step" id="step2">
-  <div class="step-circle">🫧</div>
-  <div>
-    <div class="step-title">Lavando</div>
-    <div class="step-text" data-desc="Etapa principal de limpeza com shampoo e cuidado completo do veículo."></div>
-  </div>
-</div>
+        <div class="step" id="step2">
+          <div class="step-circle">🫧</div>
+          <div>
+            <div class="step-title">Lavando</div>
+            <div class="step-text" data-desc="Etapa principal de limpeza com shampoo e cuidado completo do veículo."></div>
+          </div>
+        </div>
 
-<div class="step" id="step3">
-  <div class="step-circle">💦</div>
-  <div>
-    <div class="step-title">Finalização</div>
-    <div class="step-text" data-desc="Enxágue, acabamento e últimos detalhes para entrega."></div>
-  </div>
-</div>
+        <div class="step" id="step3">
+          <div class="step-circle">💦</div>
+          <div>
+            <div class="step-title">Finalização</div>
+            <div class="step-text" data-desc="Enxágue, acabamento e últimos detalhes para entrega."></div>
+          </div>
+        </div>
 
-<div class="step" id="step4">
-  <div class="step-circle">✅</div>
-  <div>
-    <div class="step-title">Finalizado</div>
-    <div class="step-text" data-desc="Só aparece quando você finalizar oficialmente no sistema."></div>
-  </div>
-</div>
+        <div class="step" id="step4">
+          <div class="step-circle">✅</div>
+          <div>
+            <div class="step-title">Finalizado</div>
+            <div class="step-text" data-desc="Só aparece quando você finalizar oficialmente no sistema."></div>
+          </div>
+        </div>
+      </div>
 
       <div class="footer-note">
         Atualização automática a cada 5 segundos.
@@ -786,115 +1072,112 @@
     }
 
     function getStageData(nowMs, inicioMs, tempoMin) {
-  if (!inicioMs || isNaN(inicioMs)) {
-    return { stageIndex: 0, progressPercent: 0 };
-  }
-
-  const totalMs = Number(tempoMin || 0) * 60 * 1000;
-  const elapsedMs = nowMs - inicioMs;
-
-  // Se já existe horário de início, já começou:
-  // status atual tem que ser Pré-lavagem, não Recebido
-  if (elapsedMs <= 0) {
-    return { stageIndex: 1, progressPercent: 1 };
-  }
-
-  if (totalMs <= 0) {
-    return { stageIndex: 1, progressPercent: 1 };
-  }
-
-  const oneThird = totalMs / 3;
-  const twoThirds = oneThird * 2;
-  const progressPercent = clamp((elapsedMs / totalMs) * 100, 1, 99);
-
-  if (elapsedMs < oneThird) {
-    return { stageIndex: 1, progressPercent };
-  }
-
-  if (elapsedMs < twoThirds) {
-    return { stageIndex: 2, progressPercent };
-  }
-
-  return {
-    stageIndex: 3,
-    progressPercent: elapsedMs >= totalMs ? 99 : progressPercent
-  };
-}
-
-
-function updateStepTexts(stageIndex, finalized) {
-  for (let i = 0; i <= 4; i++) {
-    const step = document.getElementById("step" + i);
-    const textEl = step.querySelector(".step-text");
-    const original = textEl.dataset.desc || "";
-
-    if (finalized) {
-      if (i < 4) {
-        textEl.innerText = "✅ Etapa concluída";
-        textEl.style.opacity = "1";
-      } else if (i === 4) {
-        textEl.innerText = original;
-        textEl.style.opacity = "1";
+      if (!inicioMs || isNaN(inicioMs)) {
+        return { stageIndex: 0, progressPercent: 0 };
       }
-      continue;
+
+      const totalMs = Number(tempoMin || 0) * 60 * 1000;
+      const elapsedMs = nowMs - inicioMs;
+
+      if (elapsedMs <= 0) {
+        return { stageIndex: 1, progressPercent: 1 };
+      }
+
+      if (totalMs <= 0) {
+        return { stageIndex: 1, progressPercent: 1 };
+      }
+
+      const oneThird = totalMs / 3;
+      const twoThirds = oneThird * 2;
+      const progressPercent = clamp((elapsedMs / totalMs) * 100, 1, 99);
+
+      if (elapsedMs < oneThird) {
+        return { stageIndex: 1, progressPercent };
+      }
+
+      if (elapsedMs < twoThirds) {
+        return { stageIndex: 2, progressPercent };
+      }
+
+      return {
+        stageIndex: 3,
+        progressPercent: elapsedMs >= totalMs ? 99 : progressPercent
+      };
     }
 
-    if (i < stageIndex) {
-      textEl.innerText = "✅ Etapa concluída";
-      textEl.style.opacity = "1";
-    } else if (i === stageIndex) {
-      textEl.innerText = original;
-      textEl.style.opacity = "1";
-    } else {
-      textEl.innerText = "";
-      textEl.style.opacity = "0";
+    function updateStepTexts(stageIndex, finalized) {
+      for (let i = 0; i <= 4; i++) {
+        const step = document.getElementById("step" + i);
+        const textEl = step.querySelector(".step-text");
+        const original = textEl.dataset.desc || "";
+
+        if (finalized) {
+          if (i < 4) {
+            textEl.innerText = "✅ Etapa concluída";
+            textEl.style.opacity = "1";
+          } else if (i === 4) {
+            textEl.innerText = original;
+            textEl.style.opacity = "1";
+          }
+          continue;
+        }
+
+        if (i < stageIndex) {
+          textEl.innerText = "✅ Etapa concluída";
+          textEl.style.opacity = "1";
+        } else if (i === stageIndex) {
+          textEl.innerText = original;
+          textEl.style.opacity = "1";
+        } else {
+          textEl.innerText = "";
+          textEl.style.opacity = "0";
+        }
+      }
     }
-  }
-}
 
-   function updateTimeline(stageIndex, progressPercent, finalized) {
-  for (let i = 0; i <= 4; i++) {
-    const step = document.getElementById("step" + i);
-    step.classList.remove("done", "active");
+    function updateTimeline(stageIndex, progressPercent, finalized) {
+      for (let i = 0; i <= 4; i++) {
+        const step = document.getElementById("step" + i);
+        step.classList.remove("done", "active");
 
-    if (finalized) {
-      if (i < 4) step.classList.add("done");
-      if (i === 4) step.classList.add("active");
-    } else {
-      if (i < stageIndex) step.classList.add("done");
-      if (i === stageIndex) step.classList.add("active");
+        if (finalized) {
+          if (i < 4) step.classList.add("done");
+          if (i === 4) step.classList.add("active");
+        } else {
+          if (i < stageIndex) step.classList.add("done");
+          if (i === stageIndex) step.classList.add("active");
+        }
+      }
+
+      let visualFill = 0;
+      let shownPercent = 0;
+
+      if (finalized) {
+        visualFill = 80;
+        shownPercent = 100;
+      } else if (stageIndex === 0) {
+        visualFill = 0;
+        shownPercent = 0;
+      } else if (stageIndex === 1) {
+        const local = clamp(progressPercent / 33.33, 0, 1);
+        visualFill = 20 + (local * 20);
+        shownPercent = Math.round(clamp(progressPercent, 0, 99));
+      } else if (stageIndex === 2) {
+        const local = clamp((progressPercent - 33.33) / 33.33, 0, 1);
+        visualFill = 40 + (local * 20);
+        shownPercent = Math.round(clamp(progressPercent, 0, 99));
+      } else if (stageIndex === 3) {
+        const local = clamp((progressPercent - 66.66) / 33.34, 0, 1);
+        visualFill = 60 + (local * 20);
+        shownPercent = Math.round(clamp(progressPercent, 0, 99));
+      }
+
+      document.getElementById("timelineFill").style.width = visualFill + "%";
+      document.getElementById("animProgressBar").style.width = visualFill + "%";
+      document.getElementById("percentText").innerText = shownPercent + "%";
+
+      updateStepTexts(stageIndex, finalized);
     }
-  }
-
-  let visualFill = 0;
-  let shownPercent = 0;
-
-  if (finalized) {
-    visualFill = 80;
-    shownPercent = 100;
-  } else if (stageIndex === 0) {
-    visualFill = 0;
-    shownPercent = 0;
-  } else if (stageIndex === 1) {
-    const local = clamp(progressPercent / 33.33, 0, 1);
-    visualFill = 20 + (local * 20);
-    shownPercent = Math.round(clamp(progressPercent, 0, 99));
-  } else if (stageIndex === 2) {
-    const local = clamp((progressPercent - 33.33) / 33.33, 0, 1);
-    visualFill = 40 + (local * 20);
-    shownPercent = Math.round(clamp(progressPercent, 0, 99));
-  } else if (stageIndex === 3) {
-    const local = clamp((progressPercent - 66.66) / 33.34, 0, 1);
-    visualFill = 60 + (local * 20);
-    shownPercent = Math.round(clamp(progressPercent, 0, 99));
-  }
-
-  document.getElementById("timelineFill").style.width = visualFill + "%";
-  document.getElementById("animProgressBar").style.width = visualFill + "%";
-  document.getElementById("percentText").innerText = shownPercent + "%";
-
-  updateStepTexts(stageIndex, finalized);
-}
 
     function updateAnimation(stageIndex, progressPercent, finalized) {
       const car = document.getElementById("carEmoji");
@@ -934,77 +1217,119 @@ function updateStepTexts(stageIndex, finalized) {
       }
     }
 
-    function renderStatus(data) {
-  const vehicleName = document.getElementById("vehicleName");
-  const ownerName = document.getElementById("ownerName");
-  const statusValue = document.getElementById("statusValue");
-  const statusDesc = document.getElementById("statusDesc");
-  const finalChip = document.getElementById("finalChip");
-
-  vehicleName.innerText = data.carro || "Veículo";
-  ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
-
-  if (isFinalized(data.status)) {
-    statusValue.innerText = "Finalizado";
-    statusDesc.innerText = STAGES[4].desc;
-    finalChip.style.display = "inline-block";
-    updateTimeline(4, 100, true);
-    updateAnimation(4, 100, true);
-    return;
-  }
-
-  finalChip.style.display = "none";
-
-  // USA SEMPRE O RELÓGIO LOCAL PRA NÃO FICAR VOLTANDO
-  const agoraMs = Date.now();
-  const inicioMs = Number(data.inicioMs || 0);
-  const tempoMin = Number(data.tempo || 0);
-
-  const result = getStageData(agoraMs, inicioMs, tempoMin);
-
-  statusValue.innerText = STAGES[result.stageIndex].name;
-  statusDesc.innerText = STAGES[result.stageIndex].desc;
-
-  updateTimeline(result.stageIndex, result.progressPercent, false);
-  updateAnimation(result.stageIndex, result.progressPercent, false);
-}
-
-    async function carregar() {
-  if (!id) {
-    showError("Link inválido. O código do veículo não foi informado.");
-    return;
-  }
-
-  try {
-    const url = API_URL + "?id=" + encodeURIComponent(id) + "&t=" + Date.now();
-
-    const resp = await fetch(url, {
-      method: "GET",
-      cache: "no-store"
-    });
-
-    const data = await resp.json();
-
-    if (data.erro) {
-      showError("Veículo não encontrado.");
-      return;
+    function formatPhone(phone) {
+      return String(phone || "").trim();
     }
 
-    currentData = data;
-    renderStatus(currentData);
+    function formatPlate(plate) {
+      return String(plate || "").trim().toUpperCase();
+    }
 
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("page").style.display = "block";
-  } catch (error) {
-    console.error(error);
-    showError("Erro ao carregar o status do veículo.");
-  }
-}
+    function renderStatus(data) {
+      const nome = String(data.nome || "Cliente").trim();
+      const primeiroNome = nome.split(" ")[0] || "cliente";
+      const carro = String(data.carro || "Veículo").trim();
+      const placa = formatPlate(data.placa || data.placaVeiculo || "");
+      const telefone = formatPhone(data.telefone || data.fone || "");
+
+      const greetingTitle = document.getElementById("greetingTitle");
+      const heroMessage = document.getElementById("heroMessage");
+      const vehicleName = document.getElementById("vehicleName");
+      const vehiclePlate = document.getElementById("vehiclePlate");
+      const ownerPhone = document.getElementById("ownerPhone");
+      const ownerName = document.getElementById("ownerName");
+      const vehicleSummary = document.getElementById("vehicleSummary");
+      const statusValue = document.getElementById("statusValue");
+      const statusDesc = document.getElementById("statusDesc");
+      const finalChip = document.getElementById("finalChip");
+      const plateCard = document.getElementById("plateCard");
+      const phoneCard = document.getElementById("phoneCard");
+
+      greetingTitle.innerText = "Oi " + primeiroNome + ",";
+      heroMessage.innerText = placa
+        ? `o seu veículo ${carro} de placa ${placa} está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.`
+        : `o seu veículo ${carro} está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.`;
+
+      vehicleName.innerText = carro;
+      ownerName.innerText = nome;
+      vehicleSummary.innerText = placa ? `${carro} • ${placa}` : carro;
+
+      if (placa) {
+        vehiclePlate.innerText = placa;
+        plateCard.style.display = "block";
+      } else {
+        vehiclePlate.innerText = "Não informada";
+        plateCard.style.display = "block";
+      }
+
+      if (telefone) {
+        ownerPhone.innerText = telefone;
+        phoneCard.style.display = "block";
+      } else {
+        ownerPhone.innerText = "Não informado";
+        phoneCard.style.display = "block";
+      }
+
+      if (isFinalized(data.status)) {
+        statusValue.innerText = "Finalizado";
+        statusDesc.innerText = STAGES[4].desc;
+        finalChip.style.display = "inline-block";
+        updateTimeline(4, 100, true);
+        updateAnimation(4, 100, true);
+        return;
+      }
+
+      finalChip.style.display = "none";
+
+      const agoraMs = Date.now();
+      const inicioMs = Number(data.inicioMs || 0);
+      const tempoMin = Number(data.tempo || 0);
+
+      const result = getStageData(agoraMs, inicioMs, tempoMin);
+
+      statusValue.innerText = STAGES[result.stageIndex].name;
+      statusDesc.innerText = STAGES[result.stageIndex].desc;
+
+      updateTimeline(result.stageIndex, result.progressPercent, false);
+      updateAnimation(result.stageIndex, result.progressPercent, false);
+    }
+
+    async function carregar() {
+      if (!id) {
+        showError("Link inválido. O código do veículo não foi informado.");
+        return;
+      }
+
+      try {
+        const url = API_URL + "?id=" + encodeURIComponent(id) + "&t=" + Date.now();
+
+        const resp = await fetch(url, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        const data = await resp.json();
+
+        if (data.erro) {
+          showError("Veículo não encontrado.");
+          return;
+        }
+
+        currentData = data;
+        renderStatus(currentData);
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("page").style.display = "block";
+      } catch (error) {
+        console.error(error);
+        showError("Erro ao carregar o status do veículo.");
+      }
+    }
 
     function tickLocal() {
-  if (!currentData) return;
-  renderStatus(currentData);
-}
+      if (!currentData) return;
+      renderStatus(currentData);
+    }
 
     carregar();
     setInterval(carregar, 5000);

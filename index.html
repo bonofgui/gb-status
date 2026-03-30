@@ -1,29 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <title>GB Estética Automotiva</title>
-</head>
-<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+<meta charset="UTF-8">
+<title>GB Estética Automotiva</title>
 
-<h1>GB Estética Automotiva</h1>
-<h2 id="carro"></h2>
-<h3 id="status"></h3>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0b0b;
+  color: white;
+  text-align: center;
+}
+
+/* LOADING */
+#loading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #0b0b0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  z-index: 10;
+}
+
+/* CONTAINER */
+.container {
+  padding: 30px;
+}
+
+/* LOGO */
+.logo {
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+/* CARD */
+.card {
+  background: #111;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 0 25px rgba(255,136,0,0.2);
+}
+
+/* STATUS */
+.status {
+  font-size: 22px;
+  margin-top: 10px;
+  color: #ff8800;
+}
+
+/* TIMELINE */
+.timeline {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 5%;
+  width: 90%;
+  height: 4px;
+  background: #333;
+}
+
+.step {
+  width: 20%;
+  text-align: center;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #333;
+  margin: auto;
+  line-height: 40px;
+}
+
+.active {
+  background: #ff8800;
+  box-shadow: 0 0 10px #ff8800;
+}
+
+.done {
+  background: #00c853;
+}
+
+/* CARRO */
+.car {
+  margin-top: 30px;
+  font-size: 50px;
+  transition: 0.5s;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="loading">🚗 Carregando status do veículo...</div>
+
+<div class="container" style="display:none" id="conteudo">
+
+<img src="logo.png" class="logo">
+
+<div class="card">
+  <h2 id="carro"></h2>
+  <div class="status" id="status"></div>
+
+  <div class="timeline">
+    <div class="step"><div class="circle" id="s1">1</div><small>Recebido</small></div>
+    <div class="step"><div class="circle" id="s2">2</div><small>Pré-lavagem</small></div>
+    <div class="step"><div class="circle" id="s3">3</div><small>Lavando</small></div>
+    <div class="step"><div class="circle" id="s4">4</div><small>Finalização</small></div>
+    <div class="step"><div class="circle" id="s5">5</div><small>Pronto</small></div>
+  </div>
+
+  <div class="car" id="carAnim">🚗</div>
+</div>
+
+</div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+let inicio = null;
+let tempoTotal = 0;
+
+function atualizarTimeline(progresso) {
+  const etapas = ["s1","s2","s3","s4","s5"];
+  const pos = Math.floor(progresso * 5);
+
+  etapas.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove("active","done");
+
+    if(i < pos) el.classList.add("done");
+    if(i === pos) el.classList.add("active");
+  });
+
+  document.getElementById("carAnim").style.transform =
+    "translateX(" + (progresso * 200) + "px)";
+}
+
 function carregar() {
   fetch("https://script.google.com/macros/s/AKfycbzvfKkMhCmrvx44URHLZLUFujlVY9b7Zk90tE1vf4FK8pzZqp0Wu01X6pPS5hwCoD_h-Q/exec?id=" + id)
     .then(r => r.json())
     .then(data => {
+
       document.getElementById("carro").innerText = data.carro;
-      document.getElementById("status").innerText = "Status: " + data.status;
+      document.getElementById("status").innerText = data.status;
+
+      inicio = new Date(data.inicio).getTime();
+      tempoTotal = data.tempo * 60000;
+
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("conteudo").style.display = "block";
     });
+}
+
+function loop() {
+  if(inicio && tempoTotal) {
+    const agora = Date.now();
+    let progresso = (agora - inicio) / tempoTotal;
+
+    if(progresso > 1) progresso = 1;
+
+    atualizarTimeline(progresso);
+  }
 }
 
 carregar();
 setInterval(carregar, 5000);
+setInterval(loop, 1000);
 </script>
 
 </body>

@@ -8,29 +8,33 @@
   <style>
     :root {
       --bg: #050505;
-      --bg-2: #0a0a0a;
-      --panel: rgba(12, 12, 12, 0.92);
-      --panel-2: rgba(18, 18, 18, 0.95);
+      --bg-2: #0b0b0b;
+      --panel: rgba(12, 12, 12, 0.94);
+      --panel-2: rgba(18, 18, 18, 0.96);
       --card: rgba(255, 255, 255, 0.03);
+      --card-2: rgba(255, 255, 255, 0.04);
       --line: rgba(255, 255, 255, 0.08);
-      --line-strong: rgba(255, 138, 0, 0.22);
-      --text: #f7f7f8;
-      --muted: #b6b6bd;
-      --muted-2: #8d8d95;
+      --line-strong: rgba(255, 138, 0, 0.18);
+      --text: #f6f6f7;
+      --muted: #b4b4bc;
+      --muted-2: #8c8c95;
       --orange: #ff8a00;
-      --orange-2: #ffb347;
-      --orange-soft: rgba(255, 138, 0, 0.12);
+      --orange-2: #ffba63;
+      --orange-soft: rgba(255, 138, 0, 0.10);
       --green: #18c964;
       --green-soft: rgba(24, 201, 100, 0.14);
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-      --radius-xl: 30px;
-      --radius-lg: 24px;
+      --danger-soft: rgba(255, 80, 80, 0.10);
+      --shadow: 0 26px 70px rgba(0, 0, 0, 0.45);
+      --radius-xxl: 34px;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
       --radius-md: 18px;
       --radius-sm: 14px;
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
@@ -39,8 +43,9 @@
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255,138,0,0.16), transparent 24%),
-        radial-gradient(circle at top right, rgba(255,138,0,0.08), transparent 20%),
+        radial-gradient(circle at top left, rgba(255,138,0,0.17), transparent 24%),
+        radial-gradient(circle at top right, rgba(255,138,0,0.08), transparent 22%),
+        radial-gradient(circle at bottom center, rgba(255,138,0,0.06), transparent 24%),
         linear-gradient(180deg, #090909 0%, #040404 100%);
       overflow-x: hidden;
     }
@@ -51,16 +56,16 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 18%, transparent 82%, rgba(255,255,255,0.02)),
-        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 22%);
-      opacity: 0.8;
+        linear-gradient(90deg, rgba(255,255,255,0.018), transparent 16%, transparent 84%, rgba(255,255,255,0.018)),
+        linear-gradient(180deg, rgba(255,255,255,0.028), transparent 26%);
       mask-image: linear-gradient(180deg, rgba(0,0,0,1), rgba(0,0,0,0.45));
+      opacity: 0.9;
     }
 
     .frame {
       position: fixed;
       inset: 10px;
-      border: 1px solid rgba(255, 138, 0, 0.14);
+      border: 1px solid rgba(255, 138, 0, 0.12);
       pointer-events: none;
       z-index: 0;
     }
@@ -79,20 +84,20 @@
     }
 
     .loading-card {
-      width: min(420px, 100%);
-      padding: 28px 22px;
-      border-radius: 26px;
-      background: rgba(12, 12, 12, 0.96);
+      width: min(430px, 100%);
+      padding: 30px 22px;
+      border-radius: 28px;
+      background: rgba(12, 12, 12, 0.97);
       border: 1px solid rgba(255, 138, 0, 0.20);
       box-shadow: var(--shadow);
       text-align: center;
     }
 
     .loading-logo {
-      width: 260px;
-      max-width: 74%;
+      width: 280px;
+      max-width: 78%;
       margin-bottom: 18px;
-      filter: drop-shadow(0 0 22px rgba(255, 138, 0, 0.22));
+      filter: drop-shadow(0 0 22px rgba(255, 138, 0, 0.24));
     }
 
     .loading-title {
@@ -100,12 +105,13 @@
       font-weight: 900;
       line-height: 1.1;
       margin-bottom: 10px;
+      letter-spacing: -0.3px;
     }
 
     .loading-sub {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
       margin-bottom: 22px;
     }
 
@@ -122,9 +128,9 @@
       content: "";
       position: absolute;
       inset: 0;
-      width: 34%;
+      width: 36%;
       background: linear-gradient(90deg, transparent, var(--orange), #ffbf70, transparent);
-      animation: loadingMove 1.25s linear infinite;
+      animation: loadingMove 1.2s linear infinite;
     }
 
     @keyframes loadingMove {
@@ -133,25 +139,25 @@
     }
 
     .page {
-      max-width: 1180px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 16px 14px 36px;
-      display: none;
+      padding: 14px 14px 34px;
       position: relative;
       z-index: 2;
+      display: none;
     }
 
-    .stack {
+    .shell {
       display: grid;
-      gap: 16px;
+      gap: 14px;
     }
 
     .card {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius-xl);
+      border-radius: var(--radius-xxl);
       border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(9,9,9,0.96));
+      background: linear-gradient(180deg, rgba(16,16,16,0.96), rgba(8,8,8,0.96));
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
@@ -172,75 +178,10 @@
       gap: 18px;
     }
 
-    .brand-side {
+    .brand-block,
+    .status-block {
       position: relative;
       z-index: 1;
-      display: grid;
-      gap: 14px;
-    }
-
-    .brand-badge {
-      width: fit-content;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(255,138,0,0.08);
-      border: 1px solid rgba(255,138,0,0.18);
-      color: #ffd19a;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.1px;
-      text-transform: uppercase;
-    }
-
-    .logo-panel {
-      min-height: 210px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.05);
-      background:
-        radial-gradient(circle at 50% 50%, rgba(255,138,0,0.14), transparent 42%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 16px;
-    }
-
-    .logo-panel img {
-      width: 290px;
-      max-width: 88%;
-      filter: drop-shadow(0 0 26px rgba(255, 138, 0, 0.22));
-    }
-
-    .brand-copy {
-      display: grid;
-      gap: 8px;
-    }
-
-    .brand-title {
-      margin: 0;
-      font-size: clamp(26px, 7vw, 44px);
-      line-height: 0.98;
-      font-weight: 900;
-      letter-spacing: -0.8px;
-    }
-
-    .brand-sub {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-      max-width: 560px;
-    }
-
-    .info-side {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 16px;
-      align-content: start;
     }
 
     .eyebrow {
@@ -248,31 +189,69 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 12px;
+      padding: 9px 13px;
       border-radius: 999px;
       background: rgba(255,138,0,0.08);
       border: 1px solid rgba(255,138,0,0.18);
       color: #ffd39f;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1.1px;
+      letter-spacing: 1.15px;
       text-transform: uppercase;
+      margin-bottom: 14px;
     }
 
-    .hero-copy-block {
-      display: grid;
-      gap: 10px;
+    .logo-stage {
+      border-radius: 28px;
+      min-height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 18px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,138,0,0.16), transparent 42%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 16px;
     }
 
-    .hero-copy-block h1 {
-      margin: 0;
-      font-size: clamp(28px, 7vw, 46px);
-      line-height: 1;
+    .logo-stage img {
+      width: 310px;
+      max-width: 90%;
+      filter: drop-shadow(0 0 28px rgba(255,138,0,0.24));
+    }
+
+    .brand-title {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 8vw, 46px);
+      line-height: 0.96;
       font-weight: 900;
       letter-spacing: -1px;
     }
 
-    .hero-copy-block p {
+    .brand-sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      font-size: clamp(30px, 8vw, 50px);
+      line-height: 0.96;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .hero-copy p {
       margin: 0;
       color: var(--muted);
       font-size: 15px;
@@ -280,40 +259,41 @@
       max-width: 720px;
     }
 
-    .data-grid {
+    .info-grid {
       display: grid;
-      gap: 10px;
       grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .data-card {
+    .info-card {
       padding: 14px 14px;
       border-radius: 18px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
     }
 
-    .data-card span {
+    .info-card span {
       display: block;
       font-size: 11px;
       font-weight: 800;
-      color: #ffcb8b;
+      color: #ffcb8c;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 8px;
     }
 
-    .data-card strong {
+    .info-card strong {
       display: block;
       font-size: 18px;
-      line-height: 1.25;
+      line-height: 1.28;
       font-weight: 900;
       word-break: break-word;
     }
 
     .status-panel {
       padding: 18px;
-      border-radius: 24px;
+      border-radius: 26px;
       background: linear-gradient(135deg, rgba(255,138,0,0.11), rgba(255,255,255,0.03));
       border: 1px solid rgba(255,138,0,0.16);
     }
@@ -323,16 +303,16 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1.2px;
-      color: #ffd29a;
+      color: #ffd39f;
       margin-bottom: 10px;
     }
 
     .status-value {
       margin: 0 0 10px;
-      font-size: clamp(30px, 8vw, 48px);
-      line-height: 0.95;
+      font-size: clamp(34px, 10vw, 54px);
+      line-height: 0.92;
       font-weight: 900;
-      letter-spacing: -1px;
+      letter-spacing: -1.2px;
     }
 
     .status-desc {
@@ -342,11 +322,11 @@
       line-height: 1.6;
     }
 
-    .status-meta-line {
-      margin-top: 12px;
-      color: #dfdfdf;
+    .vehicle-line {
+      margin-top: 14px;
       font-size: 14px;
-      line-height: 1.4;
+      color: #f0f0f0;
+      line-height: 1.45;
       font-weight: 700;
     }
 
@@ -358,12 +338,12 @@
       border-radius: 16px;
       background: rgba(24, 201, 100, 0.14);
       border: 1px solid rgba(24, 201, 100, 0.22);
-      color: #b9f3d5;
+      color: #b8f3d4;
       font-size: 14px;
       font-weight: 800;
     }
 
-    .animation-card,
+    .visual-card,
     .progress-section {
       padding: 18px;
     }
@@ -378,7 +358,7 @@
 
     .section-head h2 {
       margin: 0;
-      font-size: clamp(26px, 7vw, 42px);
+      font-size: clamp(28px, 8vw, 42px);
       line-height: 1;
       font-weight: 900;
       letter-spacing: -0.8px;
@@ -392,12 +372,13 @@
       max-width: 760px;
     }
 
-    .head-row-right {
+    .head-side {
       display: flex;
       justify-content: flex-start;
+      align-items: center;
     }
 
-    .live-pill,
+    .live-badge,
     .percent-box {
       width: fit-content;
       padding: 12px 16px;
@@ -406,31 +387,10 @@
       border: 1px solid rgba(255,138,0,0.16);
     }
 
-    .live-pill {
+    .live-badge {
       color: #ffd39f;
       font-size: 12px;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .percent-box {
-      min-width: 118px;
-      text-align: center;
-    }
-
-    .percent-box strong {
-      display: block;
-      font-size: 26px;
-      line-height: 1;
-      color: var(--orange-2);
-    }
-
-    .percent-box span {
-      display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -440,23 +400,23 @@
       width: 100%;
       height: 220px;
       border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.05);
       background:
         radial-gradient(circle at 50% 80%, rgba(255,138,0,0.12), transparent 26%),
         linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
         linear-gradient(180deg, #101010 0%, #090909 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
       z-index: 1;
     }
 
     .anim-dots {
       position: absolute;
-      top: 40px;
+      top: 42px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 18px;
-      opacity: 0.65;
+      opacity: 0.68;
       font-size: 20px;
       color: rgba(255,255,255,0.68);
       pointer-events: none;
@@ -496,7 +456,7 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      font-size: 70px;
+      font-size: 72px;
       transition: transform 1s linear, filter 0.4s ease, opacity 0.4s ease;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45));
     }
@@ -567,6 +527,35 @@
       50% { transform: scale(1.15); opacity: 1; }
     }
 
+    .progress-top {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .percent-box {
+      min-width: 118px;
+      text-align: center;
+    }
+
+    .percent-box strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--orange-2);
+    }
+
+    .percent-box span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .timeline-wrap {
       position: relative;
       z-index: 1;
@@ -577,7 +566,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
-      margin-top: 10px;
+      margin-top: 4px;
     }
 
     .timeline-line,
@@ -670,28 +659,29 @@
       margin: 80px auto 0;
       padding: 24px;
       border-radius: 22px;
-      background: rgba(35, 10, 10, 0.88);
+      background: rgba(35, 10, 10, 0.90);
       border: 1px solid rgba(255, 80, 80, 0.18);
       color: #ffd0d0;
       text-align: center;
       box-shadow: var(--shadow);
     }
 
-    @media (min-width: 700px) {
+    @media (min-width: 720px) {
       .page {
-        padding: 24px 20px 44px;
+        padding: 20px 20px 40px;
       }
 
-      .data-grid {
+      .info-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .section-head {
+      .section-head,
+      .progress-top {
         grid-template-columns: 1fr auto;
         align-items: end;
       }
 
-      .head-row-right {
+      .head-side {
         justify-content: flex-end;
       }
 
@@ -700,7 +690,7 @@
       }
 
       .car-emoji {
-        font-size: 82px;
+        font-size: 84px;
       }
 
       .anim-dots {
@@ -712,21 +702,21 @@
 
     @media (min-width: 980px) {
       .hero-card {
-        grid-template-columns: 440px 1fr;
+        grid-template-columns: 430px 1fr;
         gap: 24px;
         padding: 24px;
       }
 
-      .logo-panel {
+      .logo-stage {
         min-height: 100%;
         padding: 34px 20px;
       }
 
-      .logo-panel img {
-        width: 330px;
+      .logo-stage img {
+        width: 340px;
       }
 
-      .animation-card,
+      .visual-card,
       .progress-section {
         padding: 24px;
       }
@@ -805,43 +795,41 @@
   <div id="errorBox" class="error-box"></div>
 
   <main id="page" class="page">
-    <div class="stack">
+    <div class="shell">
       <section class="card hero-card">
-        <div class="brand-side">
-          <div class="brand-badge">GB Estética Automotiva</div>
+        <div class="brand-block">
+          <div class="eyebrow">GB Estética Automotiva</div>
 
-          <div class="logo-panel">
+          <div class="logo-stage">
             <img src="logo.png" alt="GB Estética Automotiva" />
           </div>
 
-          <div class="brand-copy">
-            <h2 class="brand-title">Visual premium. Informação clara. Acompanhamento em tempo real.</h2>
-            <p class="brand-sub">
-              Uma experiência limpa, elegante e profissional para acompanhar cada etapa da lavagem do seu veículo.
-            </p>
-          </div>
+          <h2 class="brand-title">Padrão premium em cada detalhe.</h2>
+          <p class="brand-sub">
+            Acompanhe o andamento do serviço com uma experiência limpa, elegante e profissional.
+          </p>
         </div>
 
-        <div class="info-side">
+        <div class="status-block">
           <div class="eyebrow">Status online do veículo</div>
 
-          <div class="hero-copy-block">
+          <div class="hero-copy">
             <h1 id="greetingTitle">Oi, cliente.</h1>
             <p id="heroMessage">Seu veículo está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.</p>
           </div>
 
-          <div class="data-grid">
-            <div class="data-card">
+          <div class="info-grid">
+            <div class="info-card">
               <span>Cliente</span>
               <strong id="ownerName">Cliente</strong>
             </div>
 
-            <div class="data-card">
+            <div class="info-card">
               <span>Veículo</span>
               <strong id="vehicleName">Carregando...</strong>
             </div>
 
-            <div class="data-card" id="plateCard">
+            <div class="info-card" id="plateCard">
               <span>Placa</span>
               <strong id="vehiclePlate">Não informada</strong>
             </div>
@@ -851,21 +839,21 @@
             <div class="status-label">Status atual</div>
             <p id="statusValue" class="status-value">Recebido</p>
             <p id="statusDesc" class="status-desc">Seu veículo foi recebido e está na fila de preparação.</p>
-            <div id="vehicleSummary" class="status-meta-line">Aguardando dados do veículo.</div>
+            <div id="vehicleSummary" class="vehicle-line">Aguardando dados do veículo.</div>
             <div id="finalChip" class="final-chip">✅ Lavagem finalizada com sucesso.</div>
           </div>
         </div>
       </section>
 
-      <section class="card animation-card">
+      <section class="card visual-card">
         <div class="section-head">
           <div>
             <h2>Acompanhamento visual</h2>
             <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
           </div>
 
-          <div class="head-row-right">
-            <div class="live-pill">Atualização automática</div>
+          <div class="head-side">
+            <div class="live-badge">Atualização automática</div>
           </div>
         </div>
 
@@ -886,13 +874,17 @@
       </section>
 
       <section class="card progress-section">
-        <div class="section-head">
+        <div class="progress-top">
           <div>
-            <h2>Acompanhamento da lavagem</h2>
-            <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
+            <h2 style="margin:0; font-size:clamp(28px, 8vw, 42px); line-height:1; font-weight:900; letter-spacing:-0.8px;">
+              Acompanhamento da lavagem
+            </h2>
+            <p style="margin:8px 0 0; color:var(--muted); font-size:15px; line-height:1.55;">
+              O processo avança automaticamente com base no tempo informado no sistema.
+            </p>
           </div>
 
-          <div class="head-row-right">
+          <div class="head-side">
             <div class="percent-box">
               <strong id="percentText">0%</strong>
               <span>concluído</span>

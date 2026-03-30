@@ -784,35 +784,40 @@
     }
 
     function getStageData(nowMs, inicioMs, tempoMin) {
-      if (!inicioMs || isNaN(inicioMs)) {
-        return { stageIndex: 0, progressPercent: 0 };
-      }
+  if (!inicioMs || isNaN(inicioMs)) {
+    return { stageIndex: 0, progressPercent: 0 };
+  }
 
-      const totalMs = Number(tempoMin || 0) * 60 * 1000;
-      const elapsedMs = nowMs - inicioMs;
+  const totalMs = Number(tempoMin || 0) * 60 * 1000;
+  const elapsedMs = nowMs - inicioMs;
 
-      if (elapsedMs <= 0) {
-        return { stageIndex: 0, progressPercent: 0 };
-      }
+  // Se já existe horário de início, já começou:
+  // status atual tem que ser Pré-lavagem, não Recebido
+  if (elapsedMs <= 0) {
+    return { stageIndex: 1, progressPercent: 1 };
+  }
 
-      if (totalMs <= 0) {
-        return { stageIndex: 1, progressPercent: 1 };
-      }
+  if (totalMs <= 0) {
+    return { stageIndex: 1, progressPercent: 1 };
+  }
 
-      const oneThird = totalMs / 3;
-      const twoThirds = oneThird * 2;
-      const progressPercent = clamp((elapsedMs / totalMs) * 100, 0, 99);
+  const oneThird = totalMs / 3;
+  const twoThirds = oneThird * 2;
+  const progressPercent = clamp((elapsedMs / totalMs) * 100, 1, 99);
 
-      if (elapsedMs < oneThird) {
-        return { stageIndex: 1, progressPercent };
-      }
+  if (elapsedMs < oneThird) {
+    return { stageIndex: 1, progressPercent };
+  }
 
-      if (elapsedMs < twoThirds) {
-        return { stageIndex: 2, progressPercent };
-      }
+  if (elapsedMs < twoThirds) {
+    return { stageIndex: 2, progressPercent };
+  }
 
-      return { stageIndex: 3, progressPercent: elapsedMs >= totalMs ? 99 : progressPercent };
-    }
+  return {
+    stageIndex: 3,
+    progressPercent: elapsedMs >= totalMs ? 99 : progressPercent
+  };
+}
 
     function updateTimeline(stageIndex, progressPercent, finalized) {
       for (let i = 0; i <= 4; i++) {
@@ -873,76 +878,76 @@
     }
 
     function renderStatus(data) {
-      const vehicleName = document.getElementById("vehicleName");
-      const ownerName = document.getElementById("ownerName");
-      const statusValue = document.getElementById("statusValue");
-      const statusDesc = document.getElementById("statusDesc");
-      const finalChip = document.getElementById("finalChip");
+  const vehicleName = document.getElementById("vehicleName");
+  const ownerName = document.getElementById("ownerName");
+  const statusValue = document.getElementById("statusValue");
+  const statusDesc = document.getElementById("statusDesc");
+  const finalChip = document.getElementById("finalChip");
 
-      vehicleName.innerText = data.carro || "Veículo";
-      ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
+  vehicleName.innerText = data.carro || "Veículo";
+  ownerName.innerText = data.nome ? "Cliente: " + data.nome : "Cliente";
 
-      if (isFinalized(data.status)) {
-        statusValue.innerText = "Finalizado";
-        statusDesc.innerText = STAGES[4].desc;
-        finalChip.style.display = "inline-block";
-        updateTimeline(4, 100, true);
-        updateAnimation(4, 100, true);
-        return;
-      }
+  if (isFinalized(data.status)) {
+    statusValue.innerText = "Finalizado";
+    statusDesc.innerText = STAGES[4].desc;
+    finalChip.style.display = "inline-block";
+    updateTimeline(4, 100, true);
+    updateAnimation(4, 100, true);
+    return;
+  }
 
-      finalChip.style.display = "none";
+  finalChip.style.display = "none";
 
-      const agoraMs = Number(data.agoraMs || Date.now());
-      const inicioMs = Number(data.inicioMs || 0);
-      const tempoMin = Number(data.tempo || 0);
+  // USA SEMPRE O RELÓGIO LOCAL PRA NÃO FICAR VOLTANDO
+  const agoraMs = Date.now();
+  const inicioMs = Number(data.inicioMs || 0);
+  const tempoMin = Number(data.tempo || 0);
 
-      const result = getStageData(agoraMs, inicioMs, tempoMin);
+  const result = getStageData(agoraMs, inicioMs, tempoMin);
 
-      statusValue.innerText = STAGES[result.stageIndex].name;
-      statusDesc.innerText = STAGES[result.stageIndex].desc;
+  statusValue.innerText = STAGES[result.stageIndex].name;
+  statusDesc.innerText = STAGES[result.stageIndex].desc;
 
-      updateTimeline(result.stageIndex, result.progressPercent, false);
-      updateAnimation(result.stageIndex, result.progressPercent, false);
-    }
+  updateTimeline(result.stageIndex, result.progressPercent, false);
+  updateAnimation(result.stageIndex, result.progressPercent, false);
+}
 
     async function carregar() {
-      if (!id) {
-        showError("Link inválido. O código do veículo não foi informado.");
-        return;
-      }
+  if (!id) {
+    showError("Link inválido. O código do veículo não foi informado.");
+    return;
+  }
 
-      try {
-        const url = API_URL + "?id=" + encodeURIComponent(id) + "&t=" + Date.now();
+  try {
+    const url = API_URL + "?id=" + encodeURIComponent(id) + "&t=" + Date.now();
 
-        const resp = await fetch(url, {
-          method: "GET",
-          cache: "no-store"
-        });
+    const resp = await fetch(url, {
+      method: "GET",
+      cache: "no-store"
+    });
 
-        const data = await resp.json();
+    const data = await resp.json();
 
-        if (data.erro) {
-          showError("Veículo não encontrado.");
-          return;
-        }
-
-        currentData = data;
-        renderStatus(data);
-
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("page").style.display = "block";
-      } catch (error) {
-        console.error(error);
-        showError("Erro ao carregar o status do veículo.");
-      }
+    if (data.erro) {
+      showError("Veículo não encontrado.");
+      return;
     }
+
+    currentData = data;
+    renderStatus(currentData);
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("page").style.display = "block";
+  } catch (error) {
+    console.error(error);
+    showError("Erro ao carregar o status do veículo.");
+  }
+}
 
     function tickLocal() {
-      if (!currentData) return;
-      currentData.agoraMs = Date.now();
-      renderStatus(currentData);
-    }
+  if (!currentData) return;
+  renderStatus(currentData);
+}
 
     carregar();
     setInterval(carregar, 5000);

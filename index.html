@@ -7,36 +7,40 @@
 
   <style>
     :root {
-      --bg: #060606;
-      --bg-2: #0b0b0b;
-      --card: rgba(12, 12, 12, 0.82);
-      --card-2: rgba(18, 18, 18, 0.92);
+      --bg: #050505;
+      --bg-2: #0a0a0a;
+      --panel: rgba(12, 12, 12, 0.92);
+      --panel-2: rgba(18, 18, 18, 0.95);
+      --card: rgba(255, 255, 255, 0.03);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 138, 0, 0.22);
+      --text: #f7f7f8;
+      --muted: #b6b6bd;
+      --muted-2: #8d8d95;
       --orange: #ff8a00;
       --orange-2: #ffb347;
       --orange-soft: rgba(255, 138, 0, 0.12);
-      --white: #f5f5f7;
-      --muted: #b7b7bd;
-      --muted-2: #8d8d96;
       --green: #18c964;
       --green-soft: rgba(24, 201, 100, 0.14);
-      --line: rgba(255, 255, 255, 0.08);
-      --shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
-      --radius-xl: 34px;
-      --radius-lg: 26px;
-      --radius-md: 20px;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      --radius-xl: 30px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     html, body {
       margin: 0;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      color: var(--white);
+      color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255,138,0,0.18), transparent 22%),
-        radial-gradient(circle at 100% 0%, rgba(255,138,0,0.12), transparent 20%),
-        radial-gradient(circle at 50% 100%, rgba(255,138,0,0.08), transparent 30%),
+        radial-gradient(circle at top left, rgba(255,138,0,0.16), transparent 24%),
+        radial-gradient(circle at top right, rgba(255,138,0,0.08), transparent 20%),
         linear-gradient(180deg, #090909 0%, #040404 100%);
       overflow-x: hidden;
     }
@@ -47,38 +51,18 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(90deg, rgba(255,138,0,0.06) 0, transparent 14%, transparent 86%, rgba(255,138,0,0.06) 100%),
-        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 20%);
-      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.35));
+        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 18%, transparent 82%, rgba(255,255,255,0.02)),
+        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 22%);
       opacity: 0.8;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,1), rgba(0,0,0,0.45));
     }
 
     .frame {
       position: fixed;
-      inset: 12px;
-      border: 1px solid rgba(255, 138, 0, 0.22);
+      inset: 10px;
+      border: 1px solid rgba(255, 138, 0, 0.14);
       pointer-events: none;
-      opacity: 0.9;
       z-index: 0;
-    }
-
-    .stripes-top {
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      gap: 10px;
-      padding: 0 0 0 10px;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .stripes-top span {
-      width: 56px;
-      height: 16px;
-      background: linear-gradient(90deg, var(--orange), #ffb652);
-      transform: skewX(-42deg);
-      box-shadow: 0 0 18px rgba(255, 138, 0, 0.28);
     }
 
     #loading {
@@ -91,45 +75,46 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
     }
 
     .loading-card {
-      width: min(540px, 100%);
-      padding: 34px 28px;
-      border-radius: 28px;
-      background: rgba(13, 13, 13, 0.96);
-      border: 1px solid rgba(255, 138, 0, 0.26);
+      width: min(420px, 100%);
+      padding: 28px 22px;
+      border-radius: 26px;
+      background: rgba(12, 12, 12, 0.96);
+      border: 1px solid rgba(255, 138, 0, 0.20);
       box-shadow: var(--shadow);
       text-align: center;
     }
 
     .loading-logo {
-      width: 150px;
-      max-width: 68%;
+      width: 260px;
+      max-width: 74%;
       margin-bottom: 18px;
-      filter: drop-shadow(0 0 18px rgba(255, 138, 0, 0.22));
+      filter: drop-shadow(0 0 22px rgba(255, 138, 0, 0.22));
     }
 
     .loading-title {
-      font-size: 30px;
+      font-size: 24px;
       font-weight: 900;
+      line-height: 1.1;
       margin-bottom: 10px;
     }
 
     .loading-sub {
       color: var(--muted);
-      font-size: 15px;
-      margin-bottom: 24px;
+      font-size: 14px;
       line-height: 1.5;
+      margin-bottom: 22px;
     }
 
     .loader-line {
       width: 100%;
-      height: 10px;
-      background: rgba(255,255,255,0.06);
+      height: 8px;
       border-radius: 999px;
       overflow: hidden;
+      background: rgba(255,255,255,0.06);
       position: relative;
     }
 
@@ -137,9 +122,9 @@
       content: "";
       position: absolute;
       inset: 0;
-      width: 35%;
-      background: linear-gradient(90deg, transparent, var(--orange), #ffbb61, transparent);
-      animation: loadingMove 1.3s infinite linear;
+      width: 34%;
+      background: linear-gradient(90deg, transparent, var(--orange), #ffbf70, transparent);
+      animation: loadingMove 1.25s linear infinite;
     }
 
     @keyframes loadingMove {
@@ -148,29 +133,26 @@
     }
 
     .page {
-      max-width: 1280px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 42px 22px 70px;
+      padding: 16px 14px 36px;
+      display: none;
       position: relative;
       z-index: 2;
-      display: none;
     }
 
-    .hero-grid {
+    .stack {
       display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 24px;
-      align-items: stretch;
-      margin-top: 10px;
+      gap: 16px;
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(18,18,18,0.96), rgba(10,10,10,0.96));
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(9,9,9,0.96));
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
 
@@ -180,149 +162,112 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at top right, rgba(255,138,0,0.14), transparent 26%),
-        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 28%);
+        radial-gradient(circle at top right, rgba(255,138,0,0.10), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 24%);
     }
 
-    .brand-card {
-      padding: 34px 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 520px;
+    .hero-card {
+      padding: 18px;
+      display: grid;
+      gap: 18px;
     }
 
-    .brand-top {
+    .brand-side {
       position: relative;
       z-index: 1;
+      display: grid;
+      gap: 14px;
     }
 
     .brand-badge {
+      width: fit-content;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
+      gap: 8px;
+      padding: 9px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 138, 0, 0.25);
-      background: rgba(255, 138, 0, 0.08);
-      color: #ffd29a;
-      font-size: 12px;
+      background: rgba(255,138,0,0.08);
+      border: 1px solid rgba(255,138,0,0.18);
+      color: #ffd19a;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.1px;
       text-transform: uppercase;
-      margin-bottom: 26px;
     }
 
-    .brand-logo-wrap {
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    .logo-panel {
+      min-height: 210px;
+      border-radius: 24px;
       border: 1px solid rgba(255,255,255,0.05);
-      padding: 26px 18px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,138,0,0.14), transparent 42%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       display: flex;
-      justify-content: center;
       align-items: center;
-      min-height: 240px;
-      margin-bottom: 26px;
+      justify-content: center;
+      padding: 24px 16px;
     }
 
-    .brand-logo-wrap img {
-      width: 250px;
-      max-width: 90%;
-      filter: drop-shadow(0 0 20px rgba(255, 138, 0, 0.22));
+    .logo-panel img {
+      width: 290px;
+      max-width: 88%;
+      filter: drop-shadow(0 0 26px rgba(255, 138, 0, 0.22));
     }
 
-    .brand-name {
-      font-size: 46px;
+    .brand-copy {
+      display: grid;
+      gap: 8px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(26px, 7vw, 44px);
+      line-height: 0.98;
       font-weight: 900;
-      line-height: 1;
-      margin: 0 0 10px;
-      letter-spacing: 0.5px;
+      letter-spacing: -0.8px;
     }
 
     .brand-sub {
       margin: 0;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.55;
+      max-width: 560px;
     }
 
-    .brand-bottom {
+    .info-side {
       position: relative;
       z-index: 1;
-      margin-top: 28px;
       display: grid;
-      gap: 12px;
-    }
-
-    .brand-mini {
-      padding: 16px 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .brand-mini strong {
-      display: block;
-      font-size: 14px;
-      color: #ffd29a;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .brand-mini span {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      display: block;
-    }
-
-    .main-column {
-      display: grid;
-      gap: 24px;
-    }
-
-    .spotlight-card {
-      padding: 30px;
-      min-height: 260px;
-    }
-
-    .spotlight-top {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: start;
-      flex-wrap: wrap;
+      gap: 16px;
+      align-content: start;
     }
 
     .eyebrow {
+      width: fit-content;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
+      gap: 8px;
+      padding: 9px 12px;
       border-radius: 999px;
-      background: rgba(255, 138, 0, 0.08);
-      border: 1px solid rgba(255, 138, 0, 0.20);
+      background: rgba(255,138,0,0.08);
+      border: 1px solid rgba(255,138,0,0.18);
       color: #ffd39f;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.1px;
       text-transform: uppercase;
     }
 
     .hero-copy-block {
-      margin-top: 22px;
-      max-width: 800px;
-      position: relative;
-      z-index: 1;
+      display: grid;
+      gap: 10px;
     }
 
     .hero-copy-block h1 {
-      margin: 0 0 10px;
-      font-size: clamp(32px, 4vw, 48px);
-      line-height: 1.02;
+      margin: 0;
+      font-size: clamp(28px, 7vw, 46px);
+      line-height: 1;
       font-weight: 900;
       letter-spacing: -1px;
     }
@@ -330,149 +275,198 @@
     .hero-copy-block p {
       margin: 0;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.6;
-      max-width: 780px;
+      max-width: 720px;
     }
 
-    .spotlight-grid {
-      margin-top: 26px;
+    .data-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      position: relative;
-      z-index: 1;
+      gap: 10px;
+      grid-template-columns: 1fr;
     }
 
-    .meta-card {
-      padding: 18px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.035);
+    .data-card {
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
-      min-height: 92px;
     }
 
-    .meta-card span {
+    .data-card span {
       display: block;
-      font-size: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #ffca8c;
-      margin-bottom: 10px;
+      font-size: 11px;
       font-weight: 800;
+      color: #ffcb8b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
     }
 
-    .meta-card strong {
+    .data-card strong {
       display: block;
-      font-size: 26px;
-      line-height: 1.15;
+      font-size: 18px;
+      line-height: 1.25;
       font-weight: 900;
       word-break: break-word;
     }
 
-    .status-hero {
-      margin-top: 18px;
-      padding: 22px 24px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, rgba(255,138,0,0.12), rgba(255,255,255,0.03));
+    .status-panel {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,138,0,0.11), rgba(255,255,255,0.03));
       border: 1px solid rgba(255,138,0,0.16);
-      position: relative;
-      z-index: 1;
     }
 
-    .status-hero-label {
-      font-size: 12px;
+    .status-label {
+      font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1.3px;
+      letter-spacing: 1.2px;
       color: #ffd29a;
       margin-bottom: 10px;
-      font-weight: 800;
     }
 
-    .status-hero-value {
-      font-size: clamp(30px, 4vw, 42px);
-      font-weight: 900;
-      line-height: 1;
+    .status-value {
       margin: 0 0 10px;
+      font-size: clamp(30px, 8vw, 48px);
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: -1px;
     }
 
-    .status-hero-desc {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
+    .status-desc {
       margin: 0;
-      max-width: 820px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .status-meta-line {
+      margin-top: 12px;
+      color: #dfdfdf;
+      font-size: 14px;
+      line-height: 1.4;
+      font-weight: 700;
     }
 
     .final-chip {
       display: none;
+      width: fit-content;
       margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 18px;
+      padding: 12px 14px;
+      border-radius: 16px;
       background: rgba(24, 201, 100, 0.14);
       border: 1px solid rgba(24, 201, 100, 0.22);
-      color: #b5f3d2;
+      color: #b9f3d5;
+      font-size: 14px;
       font-weight: 800;
-      font-size: 15px;
-      width: fit-content;
-    }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 24px;
-      align-items: stretch;
     }
 
     .animation-card,
-    .info-side-card {
-      padding: 26px;
-      min-height: 300px;
+    .progress-section {
+      padding: 18px;
     }
 
-    .section-kicker {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #ffd29a;
-      font-weight: 800;
-      margin-bottom: 16px;
+    .section-head {
       position: relative;
       z-index: 1;
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(26px, 7vw, 42px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 760px;
+    }
+
+    .head-row-right {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .live-pill,
+    .percent-box {
+      width: fit-content;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(255,138,0,0.10);
+      border: 1px solid rgba(255,138,0,0.16);
+    }
+
+    .live-pill {
+      color: #ffd39f;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .percent-box {
+      min-width: 118px;
+      text-align: center;
+    }
+
+    .percent-box strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--orange-2);
+    }
+
+    .percent-box span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .anim-scene {
       position: relative;
       width: 100%;
-      height: 240px;
-      border-radius: 28px;
+      height: 220px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
       background:
         radial-gradient(circle at 50% 80%, rgba(255,138,0,0.12), transparent 26%),
         linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
         linear-gradient(180deg, #101010 0%, #090909 100%);
-      border: 1px solid rgba(255,255,255,0.05);
-      overflow: hidden;
       z-index: 1;
     }
 
     .anim-dots {
       position: absolute;
-      top: 52px;
+      top: 40px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 26px;
-      opacity: 0.75;
-      font-size: 24px;
-      color: rgba(255,255,255,0.7);
+      gap: 18px;
+      opacity: 0.65;
+      font-size: 20px;
+      color: rgba(255,255,255,0.68);
       pointer-events: none;
     }
 
     .anim-floor {
       position: absolute;
-      left: 10%;
-      right: 10%;
-      bottom: 28px;
+      left: 8%;
+      right: 8%;
+      bottom: 24px;
       height: 4px;
       background: rgba(255,255,255,0.08);
       border-radius: 999px;
@@ -480,8 +474,8 @@
 
     .anim-progress-bar {
       position: absolute;
-      left: 10%;
-      bottom: 28px;
+      left: 8%;
+      bottom: 24px;
       height: 4px;
       width: 0%;
       background: linear-gradient(90deg, var(--orange), #ffb155);
@@ -492,17 +486,17 @@
 
     .car-wrap {
       position: absolute;
-      left: 10%;
-      width: 80%;
-      height: 150px;
-      bottom: 44px;
+      left: 8%;
+      width: 78%;
+      height: 135px;
+      bottom: 38px;
     }
 
     .car-emoji {
       position: absolute;
       left: 0;
       bottom: 0;
-      font-size: 86px;
+      font-size: 70px;
       transition: transform 1s linear, filter 0.4s ease, opacity 0.4s ease;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45));
     }
@@ -521,8 +515,8 @@
       left: 12%;
       top: 24%;
       color: rgba(125, 93, 60, 0.78);
-      font-size: 22px;
-      letter-spacing: 16px;
+      font-size: 18px;
+      letter-spacing: 12px;
     }
 
     .foam::before {
@@ -531,29 +525,29 @@
       left: 14%;
       top: 18%;
       color: rgba(255,255,255,0.82);
-      font-size: 34px;
-      letter-spacing: 10px;
+      font-size: 28px;
+      letter-spacing: 8px;
       animation: foamFloat 1.6s infinite ease-in-out;
     }
 
     .water::before {
       content: "💧 💧 💧 💧 💧";
       position: absolute;
-      left: 18%;
+      left: 16%;
       top: 16%;
-      font-size: 28px;
-      letter-spacing: 10px;
+      font-size: 22px;
+      letter-spacing: 8px;
       animation: waterDrop 1.2s infinite linear;
     }
 
     .shine::before {
       content: "✨ ✨ ✨";
       position: absolute;
-      left: 20%;
+      left: 18%;
       top: 16%;
       color: #ffd38c;
-      font-size: 28px;
-      letter-spacing: 18px;
+      font-size: 22px;
+      letter-spacing: 14px;
       animation: shinePulse 1.2s infinite ease-in-out;
     }
 
@@ -573,139 +567,42 @@
       50% { transform: scale(1.15); opacity: 1; }
     }
 
-    .info-side-card-content {
+    .timeline-wrap {
       position: relative;
       z-index: 1;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .info-box {
-      padding: 18px 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .info-box strong {
-      display: block;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #ffd29a;
-      margin-bottom: 10px;
-    }
-
-    .info-box span {
-      display: block;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .progress-section {
-      margin-top: 26px;
-      padding: 30px 28px 24px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 18px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 44px);
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -0.8px;
-    }
-
-    .section-head p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.5;
-    }
-
-    .percent-box {
-      padding: 14px 20px;
-      border-radius: 20px;
-      background: rgba(255,138,0,0.10);
-      border: 1px solid rgba(255,138,0,0.18);
-      min-width: 128px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .percent-box strong {
-      display: block;
-      font-size: 28px;
-      color: var(--orange-2);
-      line-height: 1;
-    }
-
-    .percent-box span {
-      color: var(--muted);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
     }
 
     .timeline {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      align-items: start;
-      margin-top: 22px;
-      z-index: 1;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
     }
 
-    .timeline-line {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 28px;
-      height: 4px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 999px;
-      z-index: 0;
-    }
-
+    .timeline-line,
     .timeline-line-fill {
-      position: absolute;
-      left: 10%;
-      top: 28px;
-      height: 4px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--orange), #ffb155);
-      border-radius: 999px;
-      z-index: 1;
-      transition: width 1s linear;
-      box-shadow: 0 0 16px rgba(255,138,0,0.45);
+      display: none;
     }
 
     .step {
       position: relative;
       z-index: 2;
-      text-align: center;
-      padding-top: 4px;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: 0.3s ease;
     }
 
     .step-circle {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      margin: 0 auto 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -714,6 +611,7 @@
       border: 1px solid rgba(255,255,255,0.08);
       color: #bfbfbf;
       transition: 0.35s ease;
+      margin: 0;
     }
 
     .step-title {
@@ -726,10 +624,14 @@
       font-size: 13px;
       color: var(--muted);
       line-height: 1.5;
-      padding: 0 8px;
       min-height: 20px;
       opacity: 0;
       transition: 0.25s ease;
+    }
+
+    .step.done {
+      border-color: rgba(24, 201, 100, 0.16);
+      background: rgba(24, 201, 100, 0.05);
     }
 
     .step.done .step-circle {
@@ -737,6 +639,12 @@
       color: #8ff0ba;
       border-color: rgba(23,201,100,0.28);
       box-shadow: 0 0 14px rgba(23,201,100,0.18);
+    }
+
+    .step.active {
+      border-color: rgba(255,138,0,0.24);
+      background: rgba(255,138,0,0.06);
+      box-shadow: 0 0 18px rgba(255,138,0,0.08);
     }
 
     .step.active .step-circle {
@@ -748,10 +656,10 @@
     }
 
     .footer-note {
-      margin-top: 28px;
-      color: #8f8f8f;
-      font-size: 14px;
-      text-align: left;
+      margin-top: 18px;
+      color: var(--muted-2);
+      font-size: 13px;
+      line-height: 1.5;
       position: relative;
       z-index: 1;
     }
@@ -769,71 +677,121 @@
       box-shadow: var(--shadow);
     }
 
-    @media (max-width: 1120px) {
-      .hero-grid,
-      .showcase-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand-card {
-        min-height: auto;
-      }
-
-      .spotlight-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 980px) {
+    @media (min-width: 700px) {
       .page {
-        padding: 32px 14px 50px;
+        padding: 24px 20px 44px;
       }
 
-      .timeline {
-        grid-template-columns: 1fr;
-        gap: 18px;
+      .data-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .timeline-line,
-      .timeline-line-fill {
-        display: none;
+      .section-head {
+        grid-template-columns: 1fr auto;
+        align-items: end;
       }
 
-      .step {
-        text-align: left;
-        padding: 0;
-        display: grid;
-        grid-template-columns: 58px 1fr;
-        gap: 12px;
-        align-items: start;
+      .head-row-right {
+        justify-content: flex-end;
       }
 
-      .step-circle {
-        margin: 0;
+      .anim-scene {
+        height: 250px;
       }
 
       .car-emoji {
-        font-size: 72px;
+        font-size: 82px;
       }
 
-      .section-head h2,
-      .hero-copy-block h1,
-      .brand-name {
-        font-size: 30px;
+      .anim-dots {
+        top: 48px;
+        gap: 24px;
+        font-size: 24px;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .hero-card {
+        grid-template-columns: 440px 1fr;
+        gap: 24px;
+        padding: 24px;
       }
 
-      .meta-card strong {
-        font-size: 22px;
+      .logo-panel {
+        min-height: 100%;
+        padding: 34px 20px;
+      }
+
+      .logo-panel img {
+        width: 330px;
+      }
+
+      .animation-card,
+      .progress-section {
+        padding: 24px;
+      }
+
+      .timeline {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        align-items: start;
+        margin-top: 22px;
+      }
+
+      .timeline-line {
+        display: block;
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        top: 28px;
+        height: 4px;
+        background: rgba(255,255,255,0.07);
+        border-radius: 999px;
+        z-index: 0;
+      }
+
+      .timeline-line-fill {
+        display: block;
+        position: absolute;
+        left: 10%;
+        top: 28px;
+        height: 4px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--orange), #ffb155);
+        border-radius: 999px;
+        z-index: 1;
+        transition: width 1s linear;
+        box-shadow: 0 0 16px rgba(255,138,0,0.45);
+      }
+
+      .step {
+        text-align: center;
+        padding: 4px 0 0;
+        display: block;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .step-circle {
+        margin: 0 auto 12px;
+      }
+
+      .step-text {
+        padding: 0 8px;
+      }
+
+      .step.done,
+      .step.active {
+        background: transparent;
+        border: none;
+        box-shadow: none;
       }
     }
   </style>
 </head>
 <body>
   <div class="frame"></div>
-
-  <div class="stripes-top">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
 
   <div id="loading">
     <div class="loading-card">
@@ -847,174 +805,153 @@
   <div id="errorBox" class="error-box"></div>
 
   <main id="page" class="page">
-    <section class="hero-grid">
-      <aside class="card brand-card">
-        <div class="brand-top">
+    <div class="stack">
+      <section class="card hero-card">
+        <div class="brand-side">
           <div class="brand-badge">GB Estética Automotiva</div>
 
-          <div class="brand-logo-wrap">
+          <div class="logo-panel">
             <img src="logo.png" alt="GB Estética Automotiva" />
           </div>
 
-          <h2 class="brand-name">Padrão premium em cada detalhe.</h2>
-          <p class="brand-sub">
-            Acompanhe em tempo real cada etapa da lavagem do seu veículo com uma experiência visual mais elegante e profissional.
-          </p>
-        </div>
-
-        <div class="brand-bottom">
-          <div class="brand-mini">
-            <strong>Atualização automática</strong>
-            <span>O status é atualizado sozinho conforme o andamento do serviço e o tempo configurado no sistema.</span>
-          </div>
-
-          <div class="brand-mini">
-            <strong>Entrega com transparência</strong>
-            <span>Você acompanha o que já foi concluído, o que está em andamento e quando o veículo estiver pronto.</span>
+          <div class="brand-copy">
+            <h2 class="brand-title">Visual premium. Informação clara. Acompanhamento em tempo real.</h2>
+            <p class="brand-sub">
+              Uma experiência limpa, elegante e profissional para acompanhar cada etapa da lavagem do seu veículo.
+            </p>
           </div>
         </div>
-      </aside>
 
-      <div class="main-column">
-        <section class="card spotlight-card">
-          <div class="spotlight-top">
-            <div class="eyebrow">Status online do veículo</div>
-          </div>
+        <div class="info-side">
+          <div class="eyebrow">Status online do veículo</div>
 
           <div class="hero-copy-block">
             <h1 id="greetingTitle">Oi, cliente.</h1>
             <p id="heroMessage">Seu veículo está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.</p>
           </div>
 
-          <div class="spotlight-grid">
-            <div class="meta-card">
+          <div class="data-grid">
+            <div class="data-card">
+              <span>Cliente</span>
+              <strong id="ownerName">Cliente</strong>
+            </div>
+
+            <div class="data-card">
               <span>Veículo</span>
               <strong id="vehicleName">Carregando...</strong>
             </div>
 
-            <div class="meta-card" id="plateCard">
+            <div class="data-card" id="plateCard">
               <span>Placa</span>
               <strong id="vehiclePlate">Não informada</strong>
             </div>
-
-            <div class="meta-card" id="phoneCard">
-              <span>Contato</span>
-              <strong id="ownerPhone">Não informado</strong>
-            </div>
           </div>
 
-          <div class="status-hero">
-            <div class="status-hero-label">Status atual</div>
-            <p id="statusValue" class="status-hero-value">Recebido</p>
-            <p id="statusDesc" class="status-hero-desc">Seu veículo foi recebido e está na fila de preparação.</p>
+          <div class="status-panel">
+            <div class="status-label">Status atual</div>
+            <p id="statusValue" class="status-value">Recebido</p>
+            <p id="statusDesc" class="status-desc">Seu veículo foi recebido e está na fila de preparação.</p>
+            <div id="vehicleSummary" class="status-meta-line">Aguardando dados do veículo.</div>
             <div id="finalChip" class="final-chip">✅ Lavagem finalizada com sucesso.</div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="showcase-grid">
-          <section class="card animation-card">
-            <div class="section-kicker">Acompanhamento visual</div>
+      <section class="card animation-card">
+        <div class="section-head">
+          <div>
+            <h2>Acompanhamento visual</h2>
+            <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
+          </div>
 
-            <div class="anim-scene">
-              <div class="anim-dots">◌ ◌ ◌ ◌ ◌</div>
-              <div id="animProgressBar" class="anim-progress-bar"></div>
-              <div class="car-wrap">
-                <div id="dust" class="dust"></div>
-                <div id="foam" class="foam"></div>
-                <div id="water" class="water"></div>
-                <div id="shine" class="shine"></div>
-                <div id="carEmoji" class="car-emoji">🚗</div>
-              </div>
-              <div class="anim-floor"></div>
+          <div class="head-row-right">
+            <div class="live-pill">Atualização automática</div>
+          </div>
+        </div>
+
+        <div class="anim-scene">
+          <div class="anim-dots">◌ ◌ ◌ ◌ ◌</div>
+          <div id="animProgressBar" class="anim-progress-bar"></div>
+
+          <div class="car-wrap">
+            <div id="dust" class="dust"></div>
+            <div id="foam" class="foam"></div>
+            <div id="water" class="water"></div>
+            <div id="shine" class="shine"></div>
+            <div id="carEmoji" class="car-emoji">🚗</div>
+          </div>
+
+          <div class="anim-floor"></div>
+        </div>
+      </section>
+
+      <section class="card progress-section">
+        <div class="section-head">
+          <div>
+            <h2>Acompanhamento da lavagem</h2>
+            <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
+          </div>
+
+          <div class="head-row-right">
+            <div class="percent-box">
+              <strong id="percentText">0%</strong>
+              <span>concluído</span>
             </div>
-          </section>
+          </div>
+        </div>
 
-          <section class="card info-side-card">
-            <div class="info-side-card-content">
-              <div class="section-kicker">Resumo do atendimento</div>
+        <div class="timeline-wrap">
+          <div class="timeline">
+            <div class="timeline-line"></div>
+            <div id="timelineFill" class="timeline-line-fill"></div>
 
-              <div class="info-box">
-                <strong>Cliente</strong>
-                <span id="ownerName">Cliente</span>
-              </div>
-
-              <div class="info-box">
-                <strong>Veículo em atendimento</strong>
-                <span id="vehicleSummary">Aguardando dados do veículo.</span>
-              </div>
-
-              <div class="info-box">
-                <strong>Observação</strong>
-                <span>O status “Finalizado” só aparece quando a finalização for confirmada oficialmente no sistema.</span>
+            <div class="step" id="step0">
+              <div class="step-circle">📥</div>
+              <div>
+                <div class="step-title">Recebido</div>
+                <div class="step-text" data-desc="Veículo recebido e preparado para iniciar o serviço."></div>
               </div>
             </div>
-          </section>
-        </section>
-      </div>
-    </section>
 
-    <section class="card progress-section">
-      <div class="section-head">
-        <div>
-          <h2>Acompanhamento da lavagem</h2>
-          <p>O processo avança automaticamente com base no tempo informado no sistema.</p>
-        </div>
+            <div class="step" id="step1">
+              <div class="step-circle">🧽</div>
+              <div>
+                <div class="step-title">Pré-lavagem</div>
+                <div class="step-text" data-desc="Primeira etapa para remoção inicial de sujeira e preparação da superfície."></div>
+              </div>
+            </div>
 
-        <div class="percent-box">
-          <strong id="percentText">0%</strong>
-          <span>concluído</span>
-        </div>
-      </div>
+            <div class="step" id="step2">
+              <div class="step-circle">🫧</div>
+              <div>
+                <div class="step-title">Lavando</div>
+                <div class="step-text" data-desc="Etapa principal de limpeza com shampoo e cuidado completo do veículo."></div>
+              </div>
+            </div>
 
-      <div class="timeline">
-        <div class="timeline-line"></div>
-        <div id="timelineFill" class="timeline-line-fill"></div>
+            <div class="step" id="step3">
+              <div class="step-circle">💦</div>
+              <div>
+                <div class="step-title">Finalização</div>
+                <div class="step-text" data-desc="Enxágue, acabamento e últimos detalhes para entrega."></div>
+              </div>
+            </div>
 
-        <div class="step" id="step0">
-          <div class="step-circle">📥</div>
-          <div>
-            <div class="step-title">Recebido</div>
-            <div class="step-text" data-desc="Veículo recebido e preparado para iniciar o serviço."></div>
+            <div class="step" id="step4">
+              <div class="step-circle">✅</div>
+              <div>
+                <div class="step-title">Finalizado</div>
+                <div class="step-text" data-desc="Só aparece quando você finalizar oficialmente no sistema."></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="step" id="step1">
-          <div class="step-circle">🧽</div>
-          <div>
-            <div class="step-title">Pré-lavagem</div>
-            <div class="step-text" data-desc="Primeira etapa para remoção inicial de sujeira e preparação da superfície."></div>
-          </div>
+        <div class="footer-note">
+          Atualização automática a cada 5 segundos.
         </div>
-
-        <div class="step" id="step2">
-          <div class="step-circle">🫧</div>
-          <div>
-            <div class="step-title">Lavando</div>
-            <div class="step-text" data-desc="Etapa principal de limpeza com shampoo e cuidado completo do veículo."></div>
-          </div>
-        </div>
-
-        <div class="step" id="step3">
-          <div class="step-circle">💦</div>
-          <div>
-            <div class="step-title">Finalização</div>
-            <div class="step-text" data-desc="Enxágue, acabamento e últimos detalhes para entrega."></div>
-          </div>
-        </div>
-
-        <div class="step" id="step4">
-          <div class="step-circle">✅</div>
-          <div>
-            <div class="step-title">Finalizado</div>
-            <div class="step-text" data-desc="Só aparece quando você finalizar oficialmente no sistema."></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-note">
-        Atualização automática a cada 5 segundos.
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <script>
@@ -1217,10 +1154,6 @@
       }
     }
 
-    function formatPhone(phone) {
-      return String(phone || "").trim();
-    }
-
     function formatPlate(plate) {
       return String(plate || "").trim().toUpperCase();
     }
@@ -1230,20 +1163,17 @@
       const primeiroNome = nome.split(" ")[0] || "cliente";
       const carro = String(data.carro || "Veículo").trim();
       const placa = formatPlate(data.placa || data.placaVeiculo || "");
-      const telefone = formatPhone(data.telefone || data.fone || "");
 
       const greetingTitle = document.getElementById("greetingTitle");
       const heroMessage = document.getElementById("heroMessage");
       const vehicleName = document.getElementById("vehicleName");
       const vehiclePlate = document.getElementById("vehiclePlate");
-      const ownerPhone = document.getElementById("ownerPhone");
       const ownerName = document.getElementById("ownerName");
       const vehicleSummary = document.getElementById("vehicleSummary");
       const statusValue = document.getElementById("statusValue");
       const statusDesc = document.getElementById("statusDesc");
       const finalChip = document.getElementById("finalChip");
       const plateCard = document.getElementById("plateCard");
-      const phoneCard = document.getElementById("phoneCard");
 
       greetingTitle.innerText = "Oi " + primeiroNome + ",";
       heroMessage.innerText = placa
@@ -1260,14 +1190,6 @@
       } else {
         vehiclePlate.innerText = "Não informada";
         plateCard.style.display = "block";
-      }
-
-      if (telefone) {
-        ownerPhone.innerText = telefone;
-        phoneCard.style.display = "block";
-      } else {
-        ownerPhone.innerText = "Não informado";
-        phoneCard.style.display = "block";
       }
 
       if (isFinalized(data.status)) {

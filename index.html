@@ -63,6 +63,7 @@
     }
 
     .frame {
+      display: none;
       position: fixed;
       inset: 10px;
       border: 1px solid rgba(255, 138, 0, 0.12);
@@ -141,7 +142,7 @@
     .page {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 14px 14px 34px;
+      padding: 10px 10px 28px;
       position: relative;
       z-index: 2;
       display: none;
@@ -149,13 +150,13 @@
 
     .shell {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .card {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius-xxl);
+      border-radius: 24px;
       border: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(16,16,16,0.96), rgba(8,8,8,0.96));
       box-shadow: var(--shadow);
@@ -173,9 +174,9 @@
     }
 
     .hero-card {
-      padding: 18px;
+      padding: 14px;
       display: grid;
-      gap: 18px;
+      gap: 10px;
     }
 
     .brand-block,
@@ -185,8 +186,8 @@
     }
 
     .eyebrow {
+      display: none;
       width: fit-content;
-      display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 9px 13px;
@@ -201,51 +202,42 @@
       margin-bottom: 14px;
     }
 
+    .brand-block {
+      text-align: center;
+      padding-top: 2px;
+    }
+
     .logo-stage {
-      border-radius: 28px;
-      min-height: 230px;
+      min-height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 28px 18px;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(255,138,0,0.16), transparent 42%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-bottom: 16px;
+      padding: 2px 0 4px;
+      background: none;
+      border: none;
+      margin-bottom: 2px;
     }
 
     .logo-stage img {
-      width: 310px;
-      max-width: 90%;
+      width: min(430px, 96vw);
+      max-width: 100%;
       filter: drop-shadow(0 0 28px rgba(255,138,0,0.24));
     }
 
-    .brand-title {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 8vw, 46px);
-      line-height: 0.96;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
+    .brand-title,
     .brand-sub {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 560px;
+      display: none;
     }
 
     .hero-copy {
       display: grid;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     .hero-copy h1 {
       margin: 0;
-      font-size: clamp(30px, 8vw, 50px);
+      font-size: clamp(28px, 9vw, 40px);
       line-height: 0.96;
       font-weight: 900;
       letter-spacing: -1px;
@@ -254,21 +246,21 @@
     .hero-copy p {
       margin: 0;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 720px;
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 100%;
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .info-card {
-      padding: 14px 14px;
-      border-radius: 18px;
+      padding: 13px 14px;
+      border-radius: 16px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
     }
@@ -285,15 +277,19 @@
 
     .info-card strong {
       display: block;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.28;
       font-weight: 900;
       word-break: break-word;
     }
 
+    #ownerCard {
+      display: none;
+    }
+
     .status-panel {
-      padding: 18px;
-      border-radius: 26px;
+      padding: 16px;
+      border-radius: 22px;
       background: linear-gradient(135deg, rgba(255,138,0,0.11), rgba(255,255,255,0.03));
       border: 1px solid rgba(255,138,0,0.16);
     }
@@ -304,12 +300,12 @@
       text-transform: uppercase;
       letter-spacing: 1.2px;
       color: #ffd39f;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .status-value {
       margin: 0 0 10px;
-      font-size: clamp(34px, 10vw, 54px);
+      font-size: clamp(32px, 10vw, 50px);
       line-height: 0.92;
       font-weight: 900;
       letter-spacing: -1.2px;
@@ -318,12 +314,12 @@
     .status-desc {
       margin: 0;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.55;
     }
 
     .vehicle-line {
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 14px;
       color: #f0f0f0;
       line-height: 1.45;
@@ -345,20 +341,20 @@
 
     .visual-card,
     .progress-section {
-      padding: 18px;
+      padding: 16px;
     }
 
     .section-head {
       position: relative;
       z-index: 1;
       display: grid;
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .section-head h2 {
       margin: 0;
-      font-size: clamp(28px, 8vw, 42px);
+      font-size: clamp(24px, 8vw, 42px);
       line-height: 1;
       font-weight: 900;
       letter-spacing: -0.8px;
@@ -367,7 +363,7 @@
     .section-head p {
       margin: 8px 0 0;
       color: var(--muted);
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.55;
       max-width: 760px;
     }
@@ -381,15 +377,15 @@
     .live-badge,
     .percent-box {
       width: fit-content;
-      padding: 12px 16px;
-      border-radius: 18px;
+      padding: 10px 14px;
+      border-radius: 16px;
       background: rgba(255,138,0,0.10);
       border: 1px solid rgba(255,138,0,0.16);
     }
 
     .live-badge {
       color: #ffd39f;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -398,8 +394,8 @@
     .anim-scene {
       position: relative;
       width: 100%;
-      height: 220px;
-      border-radius: 24px;
+      height: 190px;
+      border-radius: 20px;
       background:
         radial-gradient(circle at 50% 80%, rgba(255,138,0,0.12), transparent 26%),
         linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
@@ -411,13 +407,13 @@
 
     .anim-dots {
       position: absolute;
-      top: 42px;
+      top: 36px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 18px;
+      gap: 14px;
       opacity: 0.68;
-      font-size: 20px;
+      font-size: 16px;
       color: rgba(255,255,255,0.68);
       pointer-events: none;
     }
@@ -426,7 +422,7 @@
       position: absolute;
       left: 8%;
       right: 8%;
-      bottom: 24px;
+      bottom: 22px;
       height: 4px;
       background: rgba(255,255,255,0.08);
       border-radius: 999px;
@@ -435,7 +431,7 @@
     .anim-progress-bar {
       position: absolute;
       left: 8%;
-      bottom: 24px;
+      bottom: 22px;
       height: 4px;
       width: 0%;
       background: linear-gradient(90deg, var(--orange), #ffb155);
@@ -447,16 +443,16 @@
     .car-wrap {
       position: absolute;
       left: 8%;
-      width: 78%;
-      height: 135px;
-      bottom: 38px;
+      width: 72%;
+      height: 118px;
+      bottom: 34px;
     }
 
     .car-emoji {
       position: absolute;
       left: 0;
       bottom: 0;
-      font-size: 72px;
+      font-size: 60px;
       transition: transform 1s linear, filter 0.4s ease, opacity 0.4s ease;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45));
     }
@@ -529,20 +525,20 @@
 
     .progress-top {
       display: grid;
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 16px;
       position: relative;
       z-index: 1;
     }
 
     .percent-box {
-      min-width: 118px;
+      min-width: 100px;
       text-align: center;
     }
 
     .percent-box strong {
       display: block;
-      font-size: 26px;
+      font-size: 24px;
       line-height: 1;
       color: var(--orange-2);
     }
@@ -551,7 +547,7 @@
       display: block;
       margin-top: 6px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -565,7 +561,7 @@
       position: relative;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
       margin-top: 4px;
     }
 
@@ -578,24 +574,24 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 56px 1fr;
-      gap: 12px;
+      grid-template-columns: 50px 1fr;
+      gap: 10px;
       align-items: start;
-      padding: 14px;
-      border-radius: 20px;
+      padding: 12px;
+      border-radius: 18px;
       background: rgba(255,255,255,0.025);
       border: 1px solid rgba(255,255,255,0.05);
       transition: 0.3s ease;
     }
 
     .step-circle {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.08);
       color: #bfbfbf;
@@ -604,16 +600,16 @@
     }
 
     .step-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .step-text {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
-      line-height: 1.5;
-      min-height: 20px;
+      line-height: 1.45;
+      min-height: 18px;
       opacity: 0;
       transition: 0.25s ease;
     }
@@ -645,9 +641,9 @@
     }
 
     .footer-note {
-      margin-top: 18px;
+      margin-top: 14px;
       color: var(--muted-2);
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.5;
       position: relative;
       z-index: 1;
@@ -668,11 +664,15 @@
 
     @media (min-width: 720px) {
       .page {
-        padding: 20px 20px 40px;
+        padding: 18px 18px 36px;
+      }
+
+      .hero-card {
+        padding: 18px;
       }
 
       .info-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .section-head,
@@ -686,11 +686,168 @@
       }
 
       .anim-scene {
-        height: 250px;
+        height: 230px;
+      }
+
+      .car-wrap {
+        width: 76%;
+        height: 128px;
+        bottom: 36px;
       }
 
       .car-emoji {
-        font-size: 84px;
+        font-size: 74px;
+      }
+
+      .anim-dots {
+        top: 42px;
+        gap: 20px;
+        font-size: 20px;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .frame {
+        display: block;
+      }
+
+      .page {
+        padding: 20px 20px 40px;
+      }
+
+      .hero-card {
+        grid-template-columns: 430px 1fr;
+        gap: 24px;
+        padding: 24px;
+      }
+
+      .brand-block {
+        text-align: left;
+        padding-top: 0;
+      }
+
+      .brand-block .eyebrow,
+      .status-block .eyebrow {
+        display: inline-flex;
+      }
+
+      .logo-stage {
+        border-radius: 28px;
+        min-height: 100%;
+        padding: 34px 20px;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(255,138,0,0.16), transparent 42%),
+          linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 1px solid rgba(255,255,255,0.05);
+        margin-bottom: 16px;
+      }
+
+      .logo-stage img {
+        width: 340px;
+        max-width: 90%;
+      }
+
+      .brand-title {
+        display: block;
+        margin: 0 0 10px;
+        font-size: clamp(28px, 8vw, 46px);
+        line-height: 0.96;
+        font-weight: 900;
+        letter-spacing: -1px;
+      }
+
+      .brand-sub {
+        display: block;
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.6;
+        max-width: 560px;
+      }
+
+      .hero-copy {
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(30px, 8vw, 50px);
+      }
+
+      .hero-copy p {
+        font-size: 15px;
+        line-height: 1.6;
+        max-width: 720px;
+      }
+
+      .info-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      #ownerCard {
+        display: block;
+      }
+
+      .info-card {
+        padding: 14px 14px;
+        border-radius: 18px;
+      }
+
+      .info-card strong {
+        font-size: 18px;
+      }
+
+      .status-panel {
+        padding: 18px;
+        border-radius: 26px;
+      }
+
+      .status-value {
+        font-size: clamp(34px, 10vw, 54px);
+      }
+
+      .status-desc {
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .vehicle-line {
+        margin-top: 14px;
+      }
+
+      .visual-card,
+      .progress-section {
+        padding: 24px;
+      }
+
+      .section-head {
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .section-head h2 {
+        font-size: clamp(28px, 8vw, 42px);
+      }
+
+      .section-head p {
+        font-size: 15px;
+      }
+
+      .live-badge,
+      .percent-box {
+        padding: 12px 16px;
+        border-radius: 18px;
+      }
+
+      .live-badge {
+        font-size: 12px;
+      }
+
+      .anim-scene {
+        height: 250px;
+        border-radius: 24px;
       }
 
       .anim-dots {
@@ -698,27 +855,37 @@
         gap: 24px;
         font-size: 24px;
       }
-    }
 
-    @media (min-width: 980px) {
-      .hero-card {
-        grid-template-columns: 430px 1fr;
-        gap: 24px;
-        padding: 24px;
+      .anim-floor,
+      .anim-progress-bar {
+        bottom: 24px;
       }
 
-      .logo-stage {
-        min-height: 100%;
-        padding: 34px 20px;
+      .car-wrap {
+        width: 78%;
+        height: 135px;
+        bottom: 38px;
       }
 
-      .logo-stage img {
-        width: 340px;
+      .car-emoji {
+        font-size: 84px;
       }
 
-      .visual-card,
-      .progress-section {
-        padding: 24px;
+      .progress-top {
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .percent-box {
+        min-width: 118px;
+      }
+
+      .percent-box strong {
+        font-size: 26px;
+      }
+
+      .percent-box span {
+        font-size: 12px;
       }
 
       .timeline {
@@ -764,10 +931,21 @@
       }
 
       .step-circle {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
         margin: 0 auto 12px;
       }
 
+      .step-title {
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
       .step-text {
+        font-size: 13px;
+        line-height: 1.5;
+        min-height: 20px;
         padding: 0 8px;
       }
 
@@ -777,83 +955,11 @@
         border: none;
         box-shadow: none;
       }
-    }
 
-    /* =========================================
-       MOBILE PREMIUM & CLEAN (Layout Exclusivo)
-       ========================================= */
-    @media (max-width: 979px) {
-      body { background: #050505 !important; }
-      body::before, .frame { display: none !important; }
-      .page { padding: 0 20px 40px !important; }
-      
-      .card {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        backdrop-filter: none !important;
+      .footer-note {
+        margin-top: 18px;
+        font-size: 13px;
       }
-      .card::before { display: none !important; }
-
-      /* Header Simplification */
-      .brand-block { text-align: center; margin-bottom: 20px; }
-      .logo-stage { min-height: auto !important; padding: 20px 0 !important; background: transparent !important; border: none !important; margin: 0 !important; }
-      .logo-stage img { width: 140px !important; filter: none !important; }
-      .brand-title, .brand-sub, .eyebrow { display: none !important; }
-
-      /* Hero Content */
-      .hero-card { padding: 0 !important; gap: 0 !important; display: block !important; }
-      .hero-copy { text-align: left; margin-bottom: 24px !important; }
-      .hero-copy h1 { font-size: 32px !important; color: #fff; font-weight: 700 !important; letter-spacing: -0.5px !important; }
-      .hero-copy p { font-size: 15px !important; color: #888 !important; margin-top: 8px !important; line-height: 1.5 !important; }
-
-      /* Info Grid (Veículo / Placa) */
-      .info-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important; margin-bottom: 30px !important; }
-      .info-card:first-child { display: none !important; } /* Esconde o card Cliente, já tem a saudação */
-      .info-card { background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.05) !important; border-radius: 14px !important; padding: 14px 16px !important; }
-      .info-card span { font-size: 10px !important; color: #666 !important; margin-bottom: 4px !important; }
-      .info-card strong { font-size: 15px !important; color: #eee !important; margin: 0 !important; }
-
-      /* Status Panel */
-      .status-panel { background: transparent !important; border: none !important; padding: 0 !important; border-top: 1px solid rgba(255,255,255,0.08) !important; padding-top: 24px !important; margin-top: 10px !important; border-radius: 0 !important; }
-      .status-label { font-size: 12px !important; color: var(--orange) !important; margin-bottom: 8px !important; }
-      .status-value { font-size: 38px !important; color: #fff !important; margin-bottom: 12px !important; font-weight: 700 !important; }
-      .status-desc { font-size: 15px !important; color: #888 !important; line-height: 1.5 !important; }
-      .vehicle-line { display: none !important; }
-      .final-chip { width: 100% !important; text-align: center; border-radius: 12px !important; padding: 16px !important; font-size: 15px !important; margin-top: 20px !important; }
-
-      /* Hide Animations */
-      .visual-card { display: none !important; }
-
-      /* Progress Section */
-      .progress-section { background: transparent !important; border: none !important; padding: 0 !important; margin-top: 30px !important; border-top: 1px solid rgba(255,255,255,0.08) !important; padding-top: 30px !important; }
-      .progress-top { display: block !important; margin-bottom: 24px !important; }
-      .progress-top h2 { font-size: 22px !important; color: #fff !important; }
-      .progress-top p { font-size: 14px !important; color: #777 !important; margin-top: 6px !important; }
-      .head-side { display: none !important; } /* Esconde a % pra ficar mais clean */
-
-      /* Timeline Mobile Clean */
-      .timeline { display: flex !important; flex-direction: column !important; gap: 0 !important; padding-left: 0 !important; position: relative !important; margin-top: 0 !important; }
-      .timeline::before { content: ''; position: absolute; left: 23px; top: 20px; bottom: 40px; width: 2px; background: rgba(255,255,255,0.06); z-index: 0; }
-      .timeline-line, .timeline-line-fill { display: none !important; }
-
-      .step { display: flex !important; align-items: flex-start !important; gap: 16px !important; padding: 16px 0 !important; background: transparent !important; border: none !important; box-shadow: none !important; }
-      .step-circle { width: 48px !important; height: 48px !important; min-width: 48px !important; font-size: 20px !important; background: #050505 !important; border: 2px solid rgba(255,255,255,0.08) !important; color: #444 !important; z-index: 2 !important; box-shadow: none !important; transform: none !important; margin: 0 !important; }
-      
-      .step > div { flex: 1; }
-      .step-title { font-size: 16px !important; font-weight: 600 !important; color: #555 !important; margin: 12px 0 4px !important; }
-      .step-text { display: none !important; } /* Texto escondido por padrão */
-
-      /* Step States */
-      .step.done .step-circle { border-color: var(--green) !important; color: var(--green) !important; background: #050505 !important; box-shadow: none !important; }
-      .step.done .step-title { color: #fff !important; }
-
-      .step.active .step-circle { border-color: var(--orange) !important; color: var(--orange) !important; background: #050505 !important; box-shadow: 0 0 15px rgba(255,138,0,0.15) !important; }
-      .step.active .step-title { color: var(--orange) !important; }
-      .step.active .step-text { display: block !important; font-size: 13px !important; color: #888 !important; opacity: 1 !important; margin-top: 4px !important; }
-
-      .footer-note { text-align: center; margin-top: 40px !important; font-size: 12px !important; color: #444 !important; }
     }
   </style>
 </head>
@@ -896,7 +1002,7 @@
           </div>
 
           <div class="info-grid">
-            <div class="info-card">
+            <div class="info-card" id="ownerCard">
               <span>Cliente</span>
               <strong id="ownerName">Cliente</strong>
             </div>
@@ -953,10 +1059,10 @@
       <section class="card progress-section">
         <div class="progress-top">
           <div>
-            <h2 style="margin:0; font-size:clamp(28px, 8vw, 42px); line-height:1; font-weight:900; letter-spacing:-0.8px;">
+            <h2 style="margin:0; font-size:clamp(24px, 8vw, 42px); line-height:1; font-weight:900; letter-spacing:-0.8px;">
               Etapas da lavagem
             </h2>
-            <p style="margin:8px 0 0; color:var(--muted); font-size:15px; line-height:1.55;">
+            <p style="margin:8px 0 0; color:var(--muted); font-size:14px; line-height:1.55;">
               Veja em que fase o seu carro está, do início até a finalização.
             </p>
           </div>
@@ -1246,8 +1352,8 @@
 
       greetingTitle.innerText = "Oi " + primeiroNome + ",";
       heroMessage.innerText = placa
-        ? `Seu ${carro},  placa ${placa} já está no cuidado da GB. Atualizações em tempo real por aqui. 🔥`
-        : `o seu veículo ${carro} está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.`;
+        ? `Seu ${carro}, placa ${placa}, já está no cuidado da GB. Atualizações em tempo real por aqui. 🔥`
+        : `O seu veículo ${carro} está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.`;
 
       vehicleName.innerText = carro;
       ownerName.innerText = nome;

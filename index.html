@@ -142,7 +142,7 @@
     .page {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 10px 10px 28px;
+      padding: 8px 8px 24px;
       position: relative;
       z-index: 2;
       display: none;
@@ -174,7 +174,7 @@
     }
 
     .hero-card {
-      padding: 14px;
+      padding: 12px;
       display: grid;
       gap: 10px;
     }
@@ -212,16 +212,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2px 0 4px;
+      padding: 0 0 6px;
       background: none;
       border: none;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .logo-stage img {
-      width: min(430px, 96vw);
+      width: min(560px, calc(100vw - 24px));
       max-width: 100%;
-      filter: drop-shadow(0 0 28px rgba(255,138,0,0.24));
+      filter: drop-shadow(0 0 32px rgba(255,138,0,0.26));
     }
 
     .brand-title,
@@ -233,6 +233,7 @@
       display: grid;
       gap: 8px;
       margin-bottom: 12px;
+      text-align: left;
     }
 
     .hero-copy h1 {
@@ -253,7 +254,7 @@
 
     .info-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 12px;
     }
@@ -660,6 +661,41 @@
       color: #ffd0d0;
       text-align: center;
       box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 979.98px) {
+      .visual-card {
+        display: none;
+      }
+
+      .progress-section {
+        padding: 18px 14px;
+      }
+
+      .progress-top {
+        margin-bottom: 14px;
+      }
+
+      .percent-box {
+        min-width: 92px;
+        padding: 10px 12px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(30px, 9vw, 38px);
+      }
+
+      .status-value {
+        font-size: clamp(34px, 11vw, 46px);
+      }
+
+      .info-card {
+        min-width: 0;
+      }
+
+      .info-card strong {
+        font-size: 16px;
+      }
     }
 
     @media (min-width: 720px) {
@@ -1179,6 +1215,63 @@
       return s === "finalizado" || s === "finalizada" || s === "concluido" || s === "concluida" || s === "pronto";
     }
 
+    function getStatusTone(data) {
+      const joined = [
+        data.statusCor,
+        data.corStatus,
+        data.statusColor,
+        data.status_color,
+        data.cor,
+        data.corSemaforo,
+        data.statusSemaforo,
+        data.indicadorCor,
+        data.color,
+        data.colour
+      ]
+        .map(v => String(v || "").trim().toLowerCase())
+        .join(" ");
+
+      const normalized = joined
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "");
+
+      const isGreen = /(verde|green|#18c964|#22c55e|#16a34a|#28a745|#34a853|rgb\(24,201,100\)|rgba\(24,201,100)/.test(normalized);
+      const isOrange = /(laranja|orange|amarelo|yellow|amber|#ff8a00|#ff9800|#ffa500|#ffc107|#f59e0b|rgb\(255,138,0\)|rgba\(255,138,0)/.test(normalized);
+
+      if (isGreen) return "green";
+      if (isOrange) return "orange";
+      return "";
+    }
+
+    function getExplicitStageOverride(data) {
+      const status = normalizeText(data.status);
+      const tone = getStatusTone(data);
+
+      if (tone === "green" && (isFinalized(status) || status === "finalizando" || status === "em finalizacao")) {
+        return "finalizado";
+      }
+
+      if (tone === "orange" && isFinalized(status)) {
+        return "finalizando";
+      }
+
+      if (
+        status === "finalizando" ||
+        status === "em finalizacao" ||
+        status === "finalizacao" ||
+        status === "finalizando lavagem"
+      ) {
+        return "finalizando";
+      }
+
+      if (isFinalized(status)) {
+        return "finalizado";
+      }
+
+      return "";
+    }
+
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
@@ -1350,7 +1443,7 @@
       const finalChip = document.getElementById("finalChip");
       const plateCard = document.getElementById("plateCard");
 
-      greetingTitle.innerText = "Oi " + primeiroNome + ",";
+      greetingTitle.innerText = "Fala, " + primeiroNome + ".";
       heroMessage.innerText = placa
         ? `Seu ${carro}, placa ${placa}, já está no cuidado da GB. Atualizações em tempo real por aqui. 🔥`
         : `O seu veículo ${carro} está sendo acompanhado em tempo real pela equipe da GB Estética Automotiva.`;
@@ -1367,12 +1460,23 @@
         plateCard.style.display = "block";
       }
 
-      if (isFinalized(data.status)) {
+      const explicitStage = getExplicitStageOverride(data);
+
+      if (explicitStage === "finalizado") {
         statusValue.innerText = "Finalizado";
         statusDesc.innerText = STAGES[4].desc;
         finalChip.style.display = "inline-block";
         updateTimeline(4, 100, true);
         updateAnimation(4, 100, true);
+        return;
+      }
+
+      if (explicitStage === "finalizando") {
+        statusValue.innerText = "Finalizando";
+        statusDesc.innerText = STAGES[3].desc;
+        finalChip.style.display = "none";
+        updateTimeline(3, 99, false);
+        updateAnimation(3, 99, false);
         return;
       }
 
